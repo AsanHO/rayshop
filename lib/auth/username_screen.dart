@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rayshop/auth/widgets/form_btn.dart';
 import 'package:rayshop/constants/gaps.dart';
-import 'package:rayshop/main_navigation.dart';
+import 'package:rayshop/main_navigation/main_navigation_screen.dart';
 
 class UserNameScreen extends StatefulWidget {
   const UserNameScreen({super.key});
@@ -45,7 +45,7 @@ class _UserNameScreenState extends State<UserNameScreen> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => const MainNavigation(),
+        builder: (context) => const MainNavigationScreen(),
       ),
     );
   }
