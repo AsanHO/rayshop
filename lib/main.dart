@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:rayshop/main_navigation/main_navigation_screen.dart';
 
 void main() {
+  print("3월 22일 업데이트 입니다:)");
   runApp(const RayShopApp());
 }
 
