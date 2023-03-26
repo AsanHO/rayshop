@@ -20,10 +20,12 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
   int _selectedIndex = 0;
 
   void _onTap(int index) {
-    setState(() {
-      _selectedIndex = index;
-      print(_selectedIndex);
-    });
+    setState(
+      () {
+        _selectedIndex = index;
+        print(_selectedIndex);
+      },
+    );
   }
 
   void _onPostVideoBtnTap() {

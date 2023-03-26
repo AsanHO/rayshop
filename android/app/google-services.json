@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "488668203531",
+    "project_id": "rayshop-7063a",
+    "storage_bucket": "rayshop-7063a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:488668203531:android:5325a71573498a39cc950e",
+        "android_client_info": {
+          "package_name": "com.example.rayshop"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "488668203531-i984bgq6r667bvmcta7fo0fefqjilha7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDtZLFaITGWSOerP1q2DS7K9KUjTOAVqHI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "488668203531-i984bgq6r667bvmcta7fo0fefqjilha7.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "488668203531-8309mhpe92e5krdt8i2eo02lk4135g3k.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.rayshop"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
