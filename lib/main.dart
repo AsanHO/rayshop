@@ -16,9 +16,7 @@ class RayShopApp extends StatelessWidget {
       theme: ThemeData(
         scaffoldBackgroundColor: Colors.white,
         cardColor: const Color(0xffffea27),
-        errorColor: const Color(0xffff6427),
         primaryColor: const Color(0xff247dff),
-        primarySwatch: Colors.blue,
         appBarTheme: const AppBarTheme(
           backgroundColor: Colors.white,
           foregroundColor: Colors.black,
@@ -29,6 +27,8 @@ class RayShopApp extends StatelessWidget {
             fontWeight: FontWeight.w600,
           ),
         ),
+        colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.blue)
+            .copyWith(error: const Color(0xffff6427)),
       ),
       home: const MainNavigationScreen(),
     );
