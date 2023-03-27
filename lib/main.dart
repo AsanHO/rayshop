@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rayshop/auth/main_auth.dart';
 import 'package:rayshop/main_navigation/main_navigation_screen.dart';
 
 void main() {
@@ -30,7 +31,8 @@ class RayShopApp extends StatelessWidget {
           ),
         ),
       ),
-      home: const MainNavigationScreen(),
+      home: const MainAuthScreen(),
+      //Main_navigation_screen
     );
   }
 }
