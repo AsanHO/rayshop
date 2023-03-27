@@ -114,9 +114,9 @@ class _SearchScreenState extends State<SearchScreen> {
                             RecentSearch(text: "닌텐도"),
                           ],
                         ),
-                      )
+                      ),
                     ],
-                  )
+                  ),
                 ],
               ),
             ),
