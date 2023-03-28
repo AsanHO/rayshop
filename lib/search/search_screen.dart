@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:rayshop/search/popular_search_button.dart';
-import 'package:rayshop/search/recent_search.dart';
+import 'package:rayshop/search/widgets/popular_search_button.dart';
+import 'package:rayshop/search/widgets/recent_search.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
@@ -28,7 +28,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     children: [
                       Container(
                         color: Colors.grey.withOpacity(0.15),
-                        width: 310,
+                        width: 312,
                         height: 40,
                         padding: const EdgeInsets.symmetric(
                             vertical: 0, horizontal: 6),
@@ -41,7 +41,7 @@ class _SearchScreenState extends State<SearchScreen> {
                       IconButton(
                         onPressed: () {},
                         icon: const Icon(Icons.search_sharp),
-                        iconSize: 35,
+                        iconSize: 30,
                       )
                     ],
                   ),
