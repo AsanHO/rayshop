@@ -15,8 +15,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.9.0"
-<<<<<<< HEAD
-=======
   auth:
     dependency: "direct main"
     description:
@@ -24,7 +22,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "8.2.0+02"
->>>>>>> uh
   boolean_selector:
     dependency: transitive
     description:
@@ -74,8 +71,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.16.0"
-<<<<<<< HEAD
-=======
   crypto:
     dependency: transitive
     description:
@@ -83,7 +78,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.0.2"
->>>>>>> uh
   cupertino_icons:
     dependency: "direct main"
     description:
@@ -105,11 +99,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.3.1"
-<<<<<<< HEAD
-  firebase_auth:
-    dependency: "direct main"
-    description:
-=======
   firebase:
     dependency: "direct main"
     description:
@@ -118,9 +107,8 @@ packages:
     source: hosted
     version: "9.0.3"
   firebase_auth:
-    dependency: transitive
+    dependency: "direct main"
     description:
->>>>>>> uh
       name: firebase_auth
       url: "https://pub.dartlang.org"
     source: hosted
@@ -140,11 +128,7 @@ packages:
     source: hosted
     version: "5.2.10"
   firebase_core:
-<<<<<<< HEAD
-    dependency: transitive
-=======
     dependency: "direct main"
->>>>>>> uh
     description:
       name: firebase_core
       url: "https://pub.dartlang.org"
@@ -164,8 +148,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.2.2"
-<<<<<<< HEAD
-=======
   firebase_storage:
     dependency: "direct main"
     description:
@@ -187,7 +169,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.3.25"
->>>>>>> uh
   flutter:
     dependency: "direct main"
     description: flutter
@@ -280,8 +261,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "10.4.0"
-<<<<<<< HEAD
-=======
   google_sign_in:
     dependency: transitive
     description:
@@ -324,7 +303,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.13.5"
->>>>>>> uh
   http_parser:
     dependency: transitive
     description:
@@ -388,8 +366,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.4"
-<<<<<<< HEAD
-=======
   quiver:
     dependency: transitive
     description:
@@ -397,7 +373,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.2.1"
->>>>>>> uh
   sky_engine:
     dependency: transitive
     description: flutter
@@ -445,8 +420,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.4.12"
-<<<<<<< HEAD
-=======
   twitter_login:
     dependency: transitive
     description:
@@ -454,7 +427,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.3.1"
->>>>>>> uh
   typed_data:
     dependency: transitive
     description:
@@ -471,8 +443,4 @@ packages:
     version: "2.1.2"
 sdks:
   dart: ">=2.18.6 <3.0.0"
-<<<<<<< HEAD
-  flutter: ">=1.20.0"
-=======
   flutter: ">=3.3.0"
->>>>>>> uh
