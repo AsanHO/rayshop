@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:rayshop/main_navigation/main_navigation_screen.dart';
+import 'package:rayshop/auth/main_auth.dart';
 
 void main() {
-  print("3월 22일 업데이트 입니다:)");
+  print("3월 26일 업데이트 입니다:)");
   runApp(const RayShopApp());
 }
 
@@ -30,7 +30,7 @@ class RayShopApp extends StatelessWidget {
           ),
         ),
       ),
-      home: const MainNavigationScreen(),
+      home: const MainAuthScreen(),
     );
   }
 }
