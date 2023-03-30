@@ -45,6 +45,7 @@ class _SearchScreenState extends State<SearchScreen> {
                       )
                     ],
                   ),
+                  Image.asset('assets/spectrum.png'),
                   const SizedBox(
                     height: 30,
                   ),
