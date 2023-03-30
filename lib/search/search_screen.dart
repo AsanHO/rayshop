@@ -13,6 +13,46 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        bottom: PreferredSize(
+          preferredSize: const Size(0, 50),
+          child: Column(
+            children: [
+              Row(
+                children: [
+                  IconButton(
+                    onPressed: () {},
+                    icon: const Icon(Icons.arrow_back_ios_sharp),
+                  ),
+                  Container(
+                    color: Colors.grey.withOpacity(0.15),
+                    width: 315,
+                    height: 40,
+                    padding: const EdgeInsets.symmetric(horizontal: 6),
+                    child: const TextField(
+                      decoration: InputDecoration(
+                        hintText: "검색하세요!",
+                      ),
+                    ),
+                  ),
+                  IconButton(
+                    onPressed: () {},
+                    icon: const Icon(Icons.search_sharp),
+                    iconSize: 30,
+                  )
+                ],
+              ),
+              const SizedBox(
+                height: 5,
+              ),
+              Image.asset(
+                'assets/spectrum.png',
+              ),
+            ],
+          ),
+        ),
+      ),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -23,35 +63,6 @@ class _SearchScreenState extends State<SearchScreen> {
                 children: [
                   const SizedBox(
                     height: 50,
-                  ),
-                  Row(
-                    children: [
-                      Container(
-                        color: Colors.grey.withOpacity(0.15),
-                        width: 312,
-                        height: 40,
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 0, horizontal: 6),
-                        child: const TextField(
-                          decoration: InputDecoration(
-                            hintText: "검색하세요!",
-                          ),
-                        ),
-                      ),
-                      IconButton(
-                        onPressed: () {},
-                        icon: const Icon(Icons.search_sharp),
-                        iconSize: 30,
-                      )
-                    ],
-                  ),
-                  SizedBox(
-                    width: 400,
-                    child: Center(
-                      child: Image.asset(
-                        'assets/spectrum.png',
-                      ),
-                    ),
                   ),
                   const SizedBox(
                     height: 30,
