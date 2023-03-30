@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:rayshop/chats/chats_screen.dart';
@@ -18,7 +19,7 @@ class MainNavigationScreen extends StatefulWidget {
 
 class _MainNavigationScreenState extends State<MainNavigationScreen> {
   int _selectedIndex = 0;
-
+  final user = FirebaseAuth.instance.currentUser;
   void _onTap(int index) {
     setState(
       () {
@@ -98,7 +99,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
                 selectedIcon: FontAwesomeIcons.plus,
                 isSelected: _selectedIndex == 2,
                 selectedIndex: _selectedIndex,
-                onTap: () => _onTap(2),
+                onTap: () => {print(user), _onTap(2)},
               ),
               Gaps.h24,
               NavBtn(
