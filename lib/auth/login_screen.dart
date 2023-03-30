@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:rayshop/auth/id_screen.dart';
+import 'package:rayshop/auth/auth_fire.dart';
+import 'package:rayshop/auth/email_screen.dart';
 import 'package:rayshop/auth/widgets/form_btn.dart';
 import 'package:rayshop/constants/gaps.dart';
+import 'package:rayshop/main_navigation/main_navigation_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -11,11 +13,48 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  void _onLoginTap() {}
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _pwController = TextEditingController();
+  String _email = "";
+  String _pw = "";
+  @override
+  void initState() {
+    super.initState();
+    _emailController.addListener(() {
+      setState(() {
+        _email = _emailController.text;
+      });
+    });
+    _pwController.addListener(() {
+      setState(() {
+        _pw = _pwController.text;
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _pwController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _onLoginTap() async {
+    if (await AuthManage().signIn(_email, _pw)) {
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => const MainNavigationScreen(),
+        ),
+      );
+    } else {
+      print("잘못된 접근입니다.");
+    }
+  }
+
   void _onSignUpTap() {
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => const IdScreen(),
+        builder: (context) => const EmailScreen(),
       ),
     );
   }
@@ -49,6 +88,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ],
                   ),
                   TextFormField(
+                    controller: _emailController,
                     decoration: InputDecoration(
                       hintText: "E-mail",
                       enabledBorder: OutlineInputBorder(
@@ -64,6 +104,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   Gaps.v16,
                   TextFormField(
+                    obscureText: true,
+                    controller: _pwController,
                     decoration: InputDecoration(
                       hintText: "Password",
                       enabledBorder: OutlineInputBorder(
@@ -88,9 +130,12 @@ class _LoginScreenState extends State<LoginScreen> {
                     ],
                   ),
                   Gaps.v32,
-                  const FormButton(
-                    isDisable: false,
-                    text: "LOGIN",
+                  GestureDetector(
+                    onTap: _onLoginTap,
+                    child: const FormButton(
+                      isDisable: false,
+                      text: "LOGIN",
+                    ),
                   ),
                   SizedBox(
                     height: 48,
