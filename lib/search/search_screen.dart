@@ -45,7 +45,14 @@ class _SearchScreenState extends State<SearchScreen> {
                       )
                     ],
                   ),
-                  Image.asset('assets/spectrum.png'),
+                  SizedBox(
+                    width: 400,
+                    child: Center(
+                      child: Image.asset(
+                        'assets/spectrum.png',
+                      ),
+                    ),
+                  ),
                   const SizedBox(
                     height: 30,
                   ),

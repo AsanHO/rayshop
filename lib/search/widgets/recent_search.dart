@@ -9,21 +9,29 @@ class RecentSearch extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            text,
-            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-          ),
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.close_sharp),
-            color: Colors.black.withOpacity(0.4),
-          ),
-        ],
+    return InkWell(
+      borderRadius: BorderRadius.circular(15),
+      onTap: () {},
+      child: Container(
+        decoration: const BoxDecoration(),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                text,
+                style:
+                    const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+              ),
+            ),
+            IconButton(
+              onPressed: () {},
+              icon: const Icon(Icons.close_sharp),
+              color: Colors.black.withOpacity(0.4),
+            ),
+          ],
+        ),
       ),
     );
   }

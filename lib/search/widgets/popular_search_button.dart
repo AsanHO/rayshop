@@ -10,16 +10,19 @@ class PopularSearchButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20),
-          color: Colors.white,
-          border: Border.all(color: Colors.black.withOpacity(0.2))),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 10),
-        child: Text(
-          text,
-          style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+    return InkWell(
+      borderRadius: BorderRadius.circular(20),
+      onTap: () {},
+      child: Container(
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+            border: Border.all(color: Colors.black.withOpacity(0.2))),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 10),
+          child: Text(
+            text,
+            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+          ),
         ),
       ),
     );
