@@ -2,48 +2,52 @@ import 'package:flutter/material.dart';
 import 'package:rayshop/auth/pw_screen.dart';
 import 'package:rayshop/auth/widgets/form_btn.dart';
 
-class IdScreen extends StatefulWidget {
-  const IdScreen({super.key});
+class EmailScreen extends StatefulWidget {
+  const EmailScreen({super.key});
 
   @override
-  State<IdScreen> createState() => _IdScreenState();
+  State<EmailScreen> createState() => _EmailScreenState();
 }
 
-class _IdScreenState extends State<IdScreen> {
-  final TextEditingController _idController = TextEditingController();
-  String _id = "";
+class _EmailScreenState extends State<EmailScreen> {
+  final TextEditingController _emailController = TextEditingController();
+  String _email = "";
   @override
   void initState() {
     super.initState();
-    _idController.addListener(() {
+    _emailController.addListener(() {
       setState(() {
-        _id = _idController.text;
-        print(_id);
+        _email = _emailController.text;
+        print(_email);
       });
     });
   }
 
   @override
   void dispose() {
-    _idController.dispose();
+    _emailController.dispose();
     super.dispose();
   }
 
-  String? _isIdValid() {
-    if (_id.isEmpty) return null;
-    if (_id.length < 6) {
-      return "6글자 이상 입력해주세요";
+  String? _isEmailValid() {
+    if (_email.isEmpty) return null;
+    final RegExp emailRegExp = RegExp(
+      r'^.+@[a-zA-Z]+\.{1}[a-zA-Z]+(\.{0,1}[a-zA-Z]+)$',
+      caseSensitive: false,
+      multiLine: false,
+    );
+    if (!emailRegExp.hasMatch(_email)) {
+      return "올바른 이메일 형식으로 입력해주세요";
     }
-    //이미 사용중인 아이디라면 리턴
     return null;
   }
 
   void _onSubmit() {
-    if (_id.isEmpty || _isIdValid() != null) return;
+    if (_email.isEmpty || _isEmailValid() != null) return;
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => const PasswordScreen(),
+        builder: (context) => PasswordScreen(email: _email),
       ),
     );
   }
@@ -58,10 +62,10 @@ class _IdScreenState extends State<IdScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             TextField(
-              controller: _idController,
+              controller: _emailController,
               decoration: InputDecoration(
-                hintText: "먼저 아이디가 필요해요:)",
-                errorText: _isIdValid(),
+                hintText: "먼저 이메일이 필요해요:)",
+                errorText: _isEmailValid(),
                 helperText: "사용할수 있습니다!",
                 errorBorder: OutlineInputBorder(
                   borderSide: const BorderSide(width: 0.5),
@@ -84,7 +88,8 @@ class _IdScreenState extends State<IdScreen> {
             ),
             GestureDetector(
               onTap: _onSubmit,
-              child: FormButton(isDisable: _id.isEmpty || _isIdValid() != null),
+              child: FormButton(
+                  isDisable: _email.isEmpty || _isEmailValid() != null),
             ),
           ],
         ),

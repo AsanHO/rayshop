@@ -55,7 +55,10 @@ class _HomeState extends State<HomeScreen> {
           Column(
             children: [
               Row(
-                children: const [Text("인기상품")],
+                children: const [Text("인기상품"), Text("마감임박")],
+              ),
+              Row(
+                children: const [Text("찜"), Text("추천")],
               )
             ],
           ),
