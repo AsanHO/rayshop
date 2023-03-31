@@ -44,6 +44,9 @@ class _EnrollScreenState extends State<EnrollScreen> {
     '6시간',
   ];
 
+  List auctionList = ['경매 종류'];
+
+  String auctionValue = '경매 종류';
   String dateValue = '날짜';
   String hourValue = '시간';
   String personNumberValue = '제한없음';
@@ -61,31 +64,35 @@ class _EnrollScreenState extends State<EnrollScreen> {
               const SizedBox(
                 height: 15,
               ),
-              Container(
-                decoration: BoxDecoration(
-                    color: Colors.grey.withOpacity(0.3),
-                    borderRadius: BorderRadius.circular(20)),
-                height: 110,
-                width: 110,
-                child: Column(
-                  children: [
-                    IconButton(
-                      onPressed: () {},
-                      icon: const Icon(
-                        Icons.camera_alt_outlined,
-                      ),
-                      iconSize: 65,
+              InkWell(
+                onTap: () {},
+                borderRadius: BorderRadius.circular(20),
+                child: Container(
+                  decoration: BoxDecoration(
+                      color: Colors.grey.withOpacity(0.3),
+                      borderRadius: BorderRadius.circular(20)),
+                  height: 110,
+                  width: 110,
+                  child: const Padding(
+                    padding: EdgeInsets.all(10),
+                    child: Column(
+                      children: [
+                        Icon(
+                          Icons.camera_alt_outlined,
+                          size: 70,
+                        ),
+                        Text(
+                          '0/10',
+                          style: TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.bold),
+                        ),
+                      ],
                     ),
-                    const Text(
-                      '0/10',
-                      style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                    ),
-                  ],
+                  ),
                 ),
               ),
               const SizedBox(
-                height: 30,
+                height: 25,
               ),
               const EnrollTextField(
                 title: '제목',
@@ -104,7 +111,7 @@ class _EnrollScreenState extends State<EnrollScreen> {
               ),
               const Text(
                 "최대 입찰 인원 수",
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                style: TextStyle(fontSize: 17, fontWeight: FontWeight.w600),
               ),
               const SizedBox(
                 height: 10,
@@ -119,7 +126,7 @@ class _EnrollScreenState extends State<EnrollScreen> {
                   ),
                   const Text(
                     "   명",
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                    style: TextStyle(fontSize: 17, fontWeight: FontWeight.w600),
                   ),
                 ],
               ),
@@ -128,7 +135,7 @@ class _EnrollScreenState extends State<EnrollScreen> {
               ),
               const Text(
                 "입찰 신청 마감일",
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                style: TextStyle(fontSize: 17, fontWeight: FontWeight.w600),
               ),
               const SizedBox(
                 height: 10,
@@ -154,7 +161,50 @@ class _EnrollScreenState extends State<EnrollScreen> {
                   ),
                   const Text(
                     "   후 마감",
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                    style: TextStyle(fontSize: 17, fontWeight: FontWeight.w600),
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 15,
+              ),
+              const Text(
+                "경매 종류",
+                style: TextStyle(
+                  fontSize: 17,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Container(
+                width: 110,
+                decoration: BoxDecoration(color: Colors.grey.withOpacity(0.3)),
+                child: EnrollComboBox(
+                    list: auctionList, selectedValue: auctionValue),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Row(
+                children: [
+                  const Text(
+                    "상품 상세 설명 / ",
+                    style: TextStyle(
+                        color: Colors.grey,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500),
+                  ),
+                  TextButton(
+                    onPressed: () {},
+                    child: const Text(
+                      "# 태그",
+                      style: TextStyle(
+                          color: Colors.grey,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500),
+                    ),
                   ),
                 ],
               ),

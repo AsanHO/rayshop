@@ -26,7 +26,7 @@ class _EnrollTextFieldState extends State<EnrollTextField> {
           children: [
             Text(
               widget.title,
-              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+              style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w600),
             ),
             Row(
               children: [
@@ -56,7 +56,7 @@ class _EnrollTextFieldState extends State<EnrollTextField> {
           ],
         ),
         const TextField(
-          style: TextStyle(fontSize: 18),
+          style: TextStyle(fontSize: 17),
         ),
         const SizedBox(
           height: 10,
