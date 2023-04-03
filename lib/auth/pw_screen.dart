@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:rayshop/auth/auth_fire.dart';
-import 'package:rayshop/auth/login_screen.dart';
+import 'package:rayshop/auth/username_screen.dart';
 import 'package:rayshop/auth/widgets/form_btn.dart';
 import 'package:rayshop/constants/gaps.dart';
 
@@ -64,11 +63,11 @@ class _PasswordScreenState extends State<PasswordScreen> {
   void _onSubmit() {
     if (_pw.isEmpty || _ispw2Valid() != null) return;
     print("${widget.email}와 $_pw로 계정을 생성합니다.");
-    AuthManage().createUser(widget.email, _pw);
+    //AuthManage().createUser(widget.email, _pw);
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => const LoginScreen(),
+        builder: (context) => UserNameScreen(email: widget.email, pw: _pw),
       ),
     );
   }
