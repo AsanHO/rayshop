@@ -56,11 +56,12 @@ class _SearchScreenState extends State<SearchScreen> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 20, horizontal: 10),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
+                      children: const [
                         PopularSearchButton(
                           text: "에어팟",
                         ),
@@ -103,11 +104,11 @@ class _SearchScreenState extends State<SearchScreen> {
                           ),
                         ],
                       ),
-                      const Padding(
-                        padding:
-                            EdgeInsets.symmetric(vertical: 18, horizontal: 12),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 18, horizontal: 12),
                         child: Column(
-                          children: [
+                          children: const [
                             RecentSearch(text: "에어팟"),
                             RecentSearch(text: "갤럭시"),
                             RecentSearch(text: "아이폰"),

@@ -4,6 +4,7 @@ import 'package:rayshop/auth/email_screen.dart';
 import 'package:rayshop/auth/widgets/form_btn.dart';
 import 'package:rayshop/constants/gaps.dart';
 import 'package:rayshop/main_navigation/main_navigation_screen.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -39,8 +40,11 @@ class _LoginScreenState extends State<LoginScreen> {
     super.dispose();
   }
 
-  Future<void> _onLoginTap() async {
+  Future<void> onLoginTap() async {
     if (await AuthManage().signIn(_email, _pw)) {
+      const storage = FlutterSecureStorage();
+      await storage.write(key: 'email', value: _email);
+      await storage.write(key: 'password', value: _pw);
       Navigator.of(context).push(
         MaterialPageRoute(
           builder: (context) => const MainNavigationScreen(),
@@ -131,7 +135,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   Gaps.v32,
                   GestureDetector(
-                    onTap: _onLoginTap,
+                    onTap: onLoginTap,
                     child: const FormButton(
                       isDisable: false,
                       text: "LOGIN",
