@@ -57,13 +57,10 @@ class _EnrollScreenState extends State<EnrollScreen> {
       appBar: AppBar(),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 25),
+          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 25),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SizedBox(
-                height: 15,
-              ),
               InkWell(
                 onTap: () {},
                 borderRadius: BorderRadius.circular(20),

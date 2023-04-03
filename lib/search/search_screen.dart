@@ -16,7 +16,7 @@ class _SearchScreenState extends State<SearchScreen> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         bottom: PreferredSize(
-          preferredSize: const Size(0, 50),
+          preferredSize: const Size(0, 30),
           child: Column(
             children: [
               Row(
@@ -61,9 +61,6 @@ class _SearchScreenState extends State<SearchScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SizedBox(
-                    height: 50,
-                  ),
                   const SizedBox(
                     height: 30,
                   ),
