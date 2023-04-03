@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:rayshop/auth/auth_fire.dart';
 import 'package:rayshop/auth/main_auth.dart';
@@ -20,21 +21,26 @@ void main() async {
   if (email != null && pw != null) {
     final isSignedIn = await AuthManage().signIn(email, pw);
     if (isSignedIn) {
-      runApp(RayShopApp(isLogin: isSignedIn));
+      runApp(const RayShopApp());
     } else {
       print("이메일 또는 비밀번호가 일치하지 않습니다.");
-      runApp(RayShopApp(isLogin: isSignedIn));
+      runApp(const RayShopApp());
     }
   } else {
     print("회원정보가 존재하지 않습니다..");
-    runApp(const RayShopApp(isLogin: false));
+    runApp(const RayShopApp());
   }
 }
 
-class RayShopApp extends StatelessWidget {
-  final bool isLogin;
-  const RayShopApp({Key? key, required this.isLogin}) : super(key: key);
+class RayShopApp extends StatefulWidget {
+  const RayShopApp({Key? key}) : super(key: key);
 
+  @override
+  State<RayShopApp> createState() => _RayShopAppState();
+}
+
+class _RayShopAppState extends State<RayShopApp> {
+  User? user = AuthManage().getUser();
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -56,7 +62,8 @@ class RayShopApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.blue)
             .copyWith(error: const Color(0xffff6427)),
       ),
-      home: isLogin ? const MainNavigationScreen() : const MainAuthScreen(),
+      home:
+          user != null ? const MainNavigationScreen() : const MainAuthScreen(),
     );
   }
 }
