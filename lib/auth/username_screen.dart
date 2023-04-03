@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:rayshop/auth/auth_fire.dart';
+import 'package:rayshop/auth/main_auth.dart';
 import 'package:rayshop/auth/widgets/form_btn.dart';
 import 'package:rayshop/constants/gaps.dart';
 import 'package:rayshop/main_navigation/main_navigation_screen.dart';
 
 class UserNameScreen extends StatefulWidget {
-  const UserNameScreen({super.key});
+  final email;
+  final pw;
+  const UserNameScreen({super.key, this.email, this.pw});
 
   @override
   State<UserNameScreen> createState() => _UserNameScreenState();
@@ -42,10 +46,13 @@ class _UserNameScreenState extends State<UserNameScreen> {
 
   void _onSubmit() {
     if (_username.isEmpty || _isUsernameValid() != null) return;
+    print(widget.email);
+    print(widget.pw);
+    AuthManage().createUser(widget.email, widget.pw, _username);
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => const MainNavigationScreen(),
+        builder: (context) => const MainAuthScreen(),
       ),
     );
   }
