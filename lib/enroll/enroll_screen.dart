@@ -70,10 +70,10 @@ class _EnrollScreenState extends State<EnrollScreen> {
                       borderRadius: BorderRadius.circular(20)),
                   height: 110,
                   width: 110,
-                  child: const Padding(
-                    padding: EdgeInsets.all(10),
+                  child: Padding(
+                    padding: const EdgeInsets.all(10),
                     child: Column(
-                      children: [
+                      children: const [
                         Icon(
                           Icons.camera_alt_outlined,
                           size: 70,
