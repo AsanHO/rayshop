@@ -25,7 +25,7 @@ class _ChatScreenState extends State<ChatScreen> {
           ),
           IconButton(
             onPressed: () {},
-            icon: const Icon(Icons.notifications_none_sharp),
+            icon: const Icon(Icons.notifications),
             iconSize: 40,
           ),
         ],
@@ -36,13 +36,13 @@ class _ChatScreenState extends State<ChatScreen> {
           ),
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 25),
+      body: const Padding(
+        padding: EdgeInsets.symmetric(vertical: 25, horizontal: 25),
         child: Column(
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: const [
+              children: [
                 ChatCategory(text: '전체'),
                 ChatCategory(text: '진행중'),
                 ChatCategory(text: '진행 예정'),
