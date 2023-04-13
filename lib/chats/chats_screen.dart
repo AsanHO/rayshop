@@ -36,13 +36,13 @@ class _ChatScreenState extends State<ChatScreen> {
           ),
         ),
       ),
-      body: const Padding(
-        padding: EdgeInsets.symmetric(vertical: 25, horizontal: 25),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 25),
         child: Column(
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
+              children: const [
                 ChatCategory(text: '전체'),
                 ChatCategory(text: '진행중'),
                 ChatCategory(text: '진행 예정'),

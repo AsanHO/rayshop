@@ -83,11 +83,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
               ),
             ),
             Container(height: 10, color: Colors.grey.withOpacity(0.2)),
-            const Padding(
-              padding: EdgeInsets.all(20),
+            Padding(
+              padding: const EdgeInsets.all(20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
+                children: const [
                   Text(
                     '알림 설정',
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),

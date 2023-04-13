@@ -36,8 +36,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 icon: const Icon(Icons.settings))
           ],
         ),
-        body: const Column(
-          children: [],
+        body: Column(
+          children: const [],
         ));
   }
 }
