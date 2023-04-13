@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:rayshop/home/widgets/button.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -52,15 +53,62 @@ class _HomeState extends State<HomeScreen> {
           ),
         ),
         body: TabBarView(children: [
-          Column(
-            children: [
-              Row(
-                children: const [Text("인기상품"), Text("마감임박")],
+          const SingleChildScrollView(
+            child: Padding(
+              padding: EdgeInsets.all(20),
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 30,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Button(
+                        text: '인기상품',
+                        icon: Icon(
+                          Icons.star_rounded,
+                          color: Colors.blue,
+                          size: 50,
+                        ),
+                      ),
+                      Button(
+                        text: '마감임박',
+                        icon: Icon(
+                          Icons.warning_rounded,
+                          size: 50,
+                          color: Colors.deepOrange,
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 25,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Button(
+                        text: '찜',
+                        icon: Icon(
+                          Icons.favorite_rounded,
+                          size: 50,
+                          color: Colors.orange,
+                        ),
+                      ),
+                      Button(
+                        text: '추천',
+                        icon: Icon(
+                          Icons.thumb_up_rounded,
+                          size: 50,
+                          color: Colors.black54,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
-              Row(
-                children: const [Text("찜"), Text("추천")],
-              )
-            ],
+            ),
           ),
           GridView.builder(
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -81,7 +129,7 @@ class _HomeState extends State<HomeScreen> {
                 )
               ],
             ),
-          )
+          ),
         ]),
       ),
     );

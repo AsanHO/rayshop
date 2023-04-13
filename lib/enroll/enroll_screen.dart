@@ -3,7 +3,9 @@ import 'package:rayshop/enroll/widgets/enrollComboBox.dart';
 import 'package:rayshop/enroll/widgets/enrollTextField.dart';
 
 class EnrollScreen extends StatefulWidget {
-  const EnrollScreen({super.key});
+  const EnrollScreen({
+    super.key,
+  });
 
   @override
   State<EnrollScreen> createState() => _EnrollScreenState();
@@ -70,10 +72,10 @@ class _EnrollScreenState extends State<EnrollScreen> {
                       borderRadius: BorderRadius.circular(20)),
                   height: 110,
                   width: 110,
-                  child: Padding(
-                    padding: const EdgeInsets.all(10),
+                  child: const Padding(
+                    padding: EdgeInsets.all(10),
                     child: Column(
-                      children: const [
+                      children: [
                         Icon(
                           Icons.camera_alt_outlined,
                           size: 70,
