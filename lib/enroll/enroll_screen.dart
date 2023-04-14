@@ -242,7 +242,7 @@ class _EnrollScreenState extends State<EnrollScreen> {
                         color: Theme.of(context).primaryColor,
                       ),
                       child: const Text(
-                        "# 태그",
+                        "등록하기",
                         style: TextStyle(
                             color: Colors.white,
                             fontSize: 16,
