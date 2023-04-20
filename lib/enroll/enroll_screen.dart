@@ -98,37 +98,6 @@ class _EnrollScreenState extends State<EnrollScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-<<<<<<< HEAD
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 25),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              InkWell(
-                onTap: () {},
-                borderRadius: BorderRadius.circular(20),
-                child: Container(
-                  decoration: BoxDecoration(
-                      color: Colors.grey.withOpacity(0.3),
-                      borderRadius: BorderRadius.circular(20)),
-                  height: 110,
-                  width: 110,
-                  child: const Padding(
-                    padding: EdgeInsets.all(10),
-                    child: Column(
-                      children: [
-                        Icon(
-                          Icons.camera_alt_outlined,
-                          size: 70,
-                        ),
-                        Text(
-                          '0/10',
-                          style: TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.bold),
-                        ),
-                      ],
-=======
       body: Scaffold(
         body: SingleChildScrollView(
           child: Padding(
@@ -142,7 +111,6 @@ class _EnrollScreenState extends State<EnrollScreen> {
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
->>>>>>> 476d4be3b3ac3555bb5d8256d251df9eaa469fff
                     ),
                     width: double.infinity,
                     height: 200,

@@ -52,85 +52,90 @@ class _HomeState extends State<HomeScreen> {
             ),
           ),
         ),
-        body: TabBarView(children: [
-          const SingleChildScrollView(
-            child: Padding(
-              padding: EdgeInsets.all(20),
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: 30,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Button(
-                        text: '인기상품',
-                        icon: Icon(
-                          Icons.star_rounded,
-                          color: Colors.blue,
-                          size: 50,
-                        ),
-                      ),
-                      Button(
-                        text: '마감임박',
-                        icon: Icon(
-                          Icons.warning_rounded,
-                          size: 50,
-                          color: Colors.deepOrange,
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 25,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Button(
-                        text: '찜',
-                        icon: Icon(
-                          Icons.favorite_rounded,
-                          size: 50,
-                          color: Colors.orange,
-                        ),
-                      ),
-                      Button(
-                        text: '추천',
-                        icon: Icon(
-                          Icons.thumb_up_rounded,
-                          size: 50,
-                          color: Colors.black54,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ),
-          GridView.builder(
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3,
-                crossAxisSpacing: 2,
-                mainAxisSpacing: 2,
-                childAspectRatio: 9 / 16),
-            itemBuilder: (context, index) => Column(
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Column(
               children: [
-                Stack(
+                const SizedBox(
+                  height: 30,
+                ),
+                const Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Container(
-                      width: 100,
-                      height: 150,
-                      color: Colors.amber,
-                    )
+                    Button(
+                      text: '인기상품',
+                      icon: Icon(
+                        Icons.star_rounded,
+                        color: Colors.blue,
+                        size: 50,
+                      ),
+                    ),
+                    Button(
+                      text: '마감임박',
+                      icon: Icon(
+                        Icons.warning_rounded,
+                        size: 50,
+                        color: Colors.deepOrange,
+                      ),
+                    ),
                   ],
+                ),
+                const SizedBox(
+                  height: 25,
+                ),
+                const Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Button(
+                      text: '찜',
+                      icon: Icon(
+                        Icons.favorite_rounded,
+                        size: 50,
+                        color: Colors.orange,
+                      ),
+                    ),
+                    Button(
+                      text: '추천',
+                      icon: Icon(
+                        Icons.thumb_up_rounded,
+                        size: 50,
+                        color: Colors.black54,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 25,
+                ),
+                GridView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 3,
+                    crossAxisSpacing: 2,
+                    mainAxisSpacing: 2,
+                    childAspectRatio: 9 / 16,
+                  ),
+                  itemCount: 15, // 원하는 항목 수로 설정
+                  itemBuilder: (context, index) => Column(
+                    children: [
+                      Stack(
+                        children: [
+                          Container(
+                            width: 100,
+                            height: 150,
+                            color: Colors.amber,
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 )
               ],
             ),
           ),
-        ]),
+        ),
       ),
     );
   }
