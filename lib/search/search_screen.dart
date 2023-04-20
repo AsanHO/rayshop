@@ -17,7 +17,7 @@ class _SearchScreenState extends State<SearchScreen> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         bottom: PreferredSize(
-          preferredSize: const Size(0, 30),
+          preferredSize: const Size(0, 10),
           child: Column(
             children: [
               Row(
@@ -43,9 +43,6 @@ class _SearchScreenState extends State<SearchScreen> {
                     iconSize: 30,
                   )
                 ],
-              ),
-              const SizedBox(
-                height: 5,
               ),
               Image.asset(
                 'assets/spectrum.png',
