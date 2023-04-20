@@ -105,6 +105,19 @@ class _HomeState extends State<HomeScreen> {
                 const SizedBox(
                   height: 35,
                 ),
+                const Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text(
+                      '현재 인기 상승',
+                      style:
+                          TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 30,
+                ),
                 GridView.builder(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
