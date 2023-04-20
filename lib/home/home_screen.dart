@@ -42,11 +42,10 @@ class _HomeState extends State<HomeScreen> {
           ],
           bottom: PreferredSize(
             preferredSize: const Size.fromHeight(10),
-            child: Container(
-              alignment: Alignment.center,
-              padding: const EdgeInsets.only(top: 10),
-              child: Image.asset("assets/spectrum.png",
-                  fit: BoxFit.fill, width: double.infinity),
+            child: Image.asset(
+              "assets/spectrum.png",
+              fit: BoxFit.fill,
+              width: double.infinity,
             ),
           ),
         ),
