@@ -42,13 +42,10 @@ class _HomeState extends State<HomeScreen> {
           ],
           bottom: PreferredSize(
             preferredSize: const Size.fromHeight(10),
-            child: Container(
-              alignment: Alignment.center,
-              padding: const EdgeInsets.only(top: 10),
-              child: Image.asset(
-                "assets/spectrum.png",
-                fit: BoxFit.fill,
-              ),
+            child: Image.asset(
+              "assets/spectrum.png",
+              fit: BoxFit.fill,
+              width: double.infinity,
             ),
           ),
         ),
@@ -60,9 +57,9 @@ class _HomeState extends State<HomeScreen> {
                 const SizedBox(
                   height: 30,
                 ),
-                const Row(
+                Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
+                  children: const [
                     Button(
                       text: '인기상품',
                       icon: Icon(
@@ -84,9 +81,9 @@ class _HomeState extends State<HomeScreen> {
                 const SizedBox(
                   height: 25,
                 ),
-                const Row(
+                Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
+                  children: const [
                     Button(
                       text: '찜',
                       icon: Icon(
