@@ -3,11 +3,14 @@ import 'package:flutter/material.dart';
 class EnrollTextField extends StatefulWidget {
   final String title;
   final bool showCheckbox;
+  final TextEditingController? controller;
+
   const EnrollTextField({
-    super.key,
+    Key? key,
     required this.title,
     required this.showCheckbox,
-  });
+    this.controller,
+  }) : super(key: key);
 
   @override
   State<EnrollTextField> createState() => _EnrollTextFieldState();
@@ -37,7 +40,7 @@ class _EnrollTextFieldState extends State<EnrollTextField> {
                             value: _isChecked,
                             onChanged: (value) {
                               setState(() {
-                                _isChecked = value as bool;
+                                _isChecked = value!;
                               });
                             },
                           ),
@@ -55,8 +58,9 @@ class _EnrollTextFieldState extends State<EnrollTextField> {
             ),
           ],
         ),
-        const TextField(
-          style: TextStyle(fontSize: 17),
+        TextField(
+          style: const TextStyle(fontSize: 17),
+          controller: widget.controller,
         ),
         const SizedBox(
           height: 10,
