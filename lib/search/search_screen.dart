@@ -49,6 +49,8 @@ class _SearchScreenState extends State<SearchScreen> {
               ),
               Image.asset(
                 'assets/spectrum.png',
+                fit: BoxFit.fill,
+                width: double.infinity,
               ),
             ],
           ),
@@ -72,12 +74,11 @@ class _SearchScreenState extends State<SearchScreen> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 20, horizontal: 10),
+                  const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: const [
+                      children: [
                         PopularSearchButton(
                           text: "에어팟",
                         ),
@@ -120,11 +121,11 @@ class _SearchScreenState extends State<SearchScreen> {
                           ),
                         ],
                       ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 18, horizontal: 12),
+                      const Padding(
+                        padding:
+                            EdgeInsets.symmetric(vertical: 18, horizontal: 12),
                         child: Column(
-                          children: const [
+                          children: [
                             RecentSearch(text: "에어팟"),
                             RecentSearch(text: "갤럭시"),
                             RecentSearch(text: "아이폰"),

@@ -45,10 +45,8 @@ class _HomeState extends State<HomeScreen> {
             child: Container(
               alignment: Alignment.center,
               padding: const EdgeInsets.only(top: 10),
-              child: Image.asset(
-                "assets/spectrum.png",
-                fit: BoxFit.fill,
-              ),
+              child: Image.asset("assets/spectrum.png",
+                  fit: BoxFit.fill, width: double.infinity),
             ),
           ),
         ),
@@ -106,7 +104,7 @@ class _HomeState extends State<HomeScreen> {
                   ],
                 ),
                 const SizedBox(
-                  height: 25,
+                  height: 35,
                 ),
                 GridView.builder(
                   shrinkWrap: true,
