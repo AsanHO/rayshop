@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:rayshop/home/detail_screen.dart';
 import 'package:rayshop/home/widgets/button.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -132,10 +133,19 @@ class _HomeState extends State<HomeScreen> {
                     children: [
                       Stack(
                         children: [
-                          Container(
-                            width: 100,
-                            height: 150,
-                            color: Colors.amber,
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const DetailScreen()),
+                              );
+                            },
+                            child: Container(
+                              width: 100,
+                              height: 150,
+                              color: Colors.amber,
+                            ),
                           ),
                         ],
                       ),
