@@ -97,7 +97,9 @@ class _EnrollScreenState extends State<EnrollScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        leading: null,
+      ),
       body: Scaffold(
         body: SingleChildScrollView(
           child: Padding(
