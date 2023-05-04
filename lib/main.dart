@@ -8,7 +8,7 @@ import 'firebase_options.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 void main() async {
-  print("4월 3일 업데이트 입니다:) 로그인 영속성 추가");
+  print("5월 4일 업데이트 입니다:) 구글 로그인 추가");
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
