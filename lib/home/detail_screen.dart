@@ -92,42 +92,50 @@ class _DetailScreenState extends State<DetailScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
-                            Text(
-                              '입찰자 신청 마감 시간',
-                              style: TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.w600),
+                            Column(
+                              children: [
+                                Text(
+                                  '입찰자 신청 마감 시간',
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w600),
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Text(
+                                  '30:03',
+                                  style: TextStyle(
+                                      fontSize: 36,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.orange),
+                                ),
+                              ],
                             ),
-                            Text(
-                              '현재 입찰자',
-                              style: TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.w600),
-                            ),
+                            Column(
+                              children: [
+                                Text(
+                                  '현재 입찰자',
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w600),
+                                ),
+                                SizedBox(
+                                  height: 0,
+                                ),
+                                Text(
+                                  '3명',
+                                  style: TextStyle(
+                                      fontSize: 36,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.blue),
+                                ),
+                              ],
+                            )
                           ],
-                        ),
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 1),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "30:03",
-                                style: TextStyle(
-                                    fontSize: 40,
-                                    fontWeight: FontWeight.w600,
-                                    color: Colors.orange),
-                              ),
-                              Text(
-                                "3명",
-                                style: TextStyle(
-                                    fontSize: 40,
-                                    fontWeight: FontWeight.w600,
-                                    color: Colors.blue),
-                              ),
-                            ],
-                          ),
-                        ),
+                        )
                       ],
                     ),
                   ),
