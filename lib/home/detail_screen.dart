@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rayshop/constants/gaps.dart';
 
 class DetailScreen extends StatefulWidget {
   const DetailScreen({super.key});
@@ -102,9 +103,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                       fontSize: 18,
                                       fontWeight: FontWeight.w600),
                                 ),
-                                SizedBox(
-                                  height: 10,
-                                ),
+                                Gaps.v10,
                                 Text(
                                   '30:03',
                                   style: TextStyle(
