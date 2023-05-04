@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:rayshop/home/detail_screen.dart';
+import 'package:rayshop/home/notification_screen.dart';
 import 'package:rayshop/home/widgets/button.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -34,7 +35,13 @@ class _HomeState extends State<HomeScreen> {
               ),
             ),
             IconButton(
-              onPressed: _onBellPressed,
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const NotificationScreen()),
+                );
+              },
               icon: const FaIcon(
                 FontAwesomeIcons.solidBell,
                 size: 30,
