@@ -3,25 +3,10 @@ import 'package:rayshop/auth/login_screen.dart';
 import 'package:rayshop/constants/gaps.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:rayshop/main_navigation/main_navigation_screen.dart';
 
 class MainAuthScreen extends StatelessWidget {
   const MainAuthScreen({super.key});
-
-  Future<UserCredential> signInWithGoogle() async {
-    // 구글 로그인 흐름 시작
-    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-    // 인증 세부 정보 가져오기
-    final GoogleSignInAuthentication? googleAuth =
-        await googleUser?.authentication;
-    // 새 자격 증명 만들기
-    final credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth?.accessToken,
-      idToken: googleAuth?.idToken,
-    );
-
-    // 로그인 후 UserCredential 반환
-    return await FirebaseAuth.instance.signInWithCredential(credential);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,6 +16,24 @@ class MainAuthScreen extends StatelessWidget {
           builder: (context) => const LoginScreen(),
         ),
       );
+    }
+
+    Future<UserCredential> signInWithGoogle() async {
+      // 구글 로그인 흐름 시작
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+      // 인증 세부 정보 가져오기
+      final GoogleSignInAuthentication? googleAuth =
+          await googleUser?.authentication;
+      // 새 자격 증명 만들기
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth?.accessToken,
+        idToken: googleAuth?.idToken,
+      );
+      Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => const MainNavigationScreen(),
+      ));
+      // 로그인 후 UserCredential 반환
+      return await FirebaseAuth.instance.signInWithCredential(credential);
     }
 
     return Scaffold(
