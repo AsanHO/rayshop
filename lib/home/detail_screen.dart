@@ -122,9 +122,6 @@ class _DetailScreenState extends State<DetailScreen> {
                                       fontSize: 18,
                                       fontWeight: FontWeight.w600),
                                 ),
-                                SizedBox(
-                                  height: 0,
-                                ),
                                 Text(
                                   '3명',
                                   style: TextStyle(
