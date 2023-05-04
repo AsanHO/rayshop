@@ -1,138 +1,58 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:rayshop/home/widgets/button.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+  const HomeScreen({Key? key});
 
   @override
-  State<HomeScreen> createState() => _HomeState();
+  _HomeScreenState createState() => _HomeScreenState();
 }
 
-class _HomeState extends State<HomeScreen> {
-  void _onBellPressed() {}
+class _HomeScreenState extends State<HomeScreen> {
+  late Stream<QuerySnapshot> _stream;
+
+  @override
+  void initState() {
+    super.initState();
+    _stream = FirebaseFirestore.instance.collection('products').snapshots();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 2,
-      child: Scaffold(
-        appBar: AppBar(
-          leading: IconButton(
-            onPressed: _onBellPressed,
-            icon: const FaIcon(
-              FontAwesomeIcons.bars,
-              size: 30,
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Products'),
+      ),
+      body: StreamBuilder<QuerySnapshot>(
+        stream: _stream,
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+
+          final docs = snapshot.data!.docs;
+
+          return GridView.builder(
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              childAspectRatio: 0.75,
             ),
-          ),
-          actions: [
-            IconButton(
-              onPressed: _onBellPressed,
-              icon: const FaIcon(
-                FontAwesomeIcons.magnifyingGlass,
-                size: 30,
-              ),
-            ),
-            IconButton(
-              onPressed: _onBellPressed,
-              icon: const FaIcon(
-                FontAwesomeIcons.solidBell,
-                size: 30,
-              ),
-            )
-          ],
-          bottom: PreferredSize(
-            preferredSize: const Size.fromHeight(10),
-            child: Image.asset(
-              "assets/spectrum.png",
-              fit: BoxFit.fill,
-              width: double.infinity,
-            ),
-          ),
-        ),
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(20),
-            child: Column(
-              children: [
-                const SizedBox(
-                  height: 30,
+            itemCount: docs.length,
+            itemBuilder: (context, index) {
+              final data = docs[index].data() as Map;
+              print(data);
+              return Container(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [Image.network(data["imageUrl"])],
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: const [
-                    Button(
-                      text: '인기상품',
-                      icon: Icon(
-                        Icons.star_rounded,
-                        color: Colors.blue,
-                        size: 50,
-                      ),
-                    ),
-                    Button(
-                      text: '마감임박',
-                      icon: Icon(
-                        Icons.warning_rounded,
-                        size: 50,
-                        color: Colors.deepOrange,
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 25,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: const [
-                    Button(
-                      text: '찜',
-                      icon: Icon(
-                        Icons.favorite_rounded,
-                        size: 50,
-                        color: Colors.orange,
-                      ),
-                    ),
-                    Button(
-                      text: '추천',
-                      icon: Icon(
-                        Icons.thumb_up_rounded,
-                        size: 50,
-                        color: Colors.black54,
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 25,
-                ),
-                GridView.builder(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3,
-                    crossAxisSpacing: 2,
-                    mainAxisSpacing: 2,
-                    childAspectRatio: 9 / 16,
-                  ),
-                  itemCount: 15, // 원하는 항목 수로 설정
-                  itemBuilder: (context, index) => Column(
-                    children: [
-                      Stack(
-                        children: [
-                          Container(
-                            width: 100,
-                            height: 150,
-                            color: Colors.amber,
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                )
-              ],
-            ),
-          ),
-        ),
+              );
+            },
+          );
+        },
       ),
     );
   }
