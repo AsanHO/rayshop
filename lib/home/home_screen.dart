@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:rayshop/home/widgets/button.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -41,48 +42,97 @@ class _HomeState extends State<HomeScreen> {
           ],
           bottom: PreferredSize(
             preferredSize: const Size.fromHeight(10),
-            child: Container(
-              alignment: Alignment.center,
-              padding: const EdgeInsets.only(top: 10),
-              child: Image.asset(
-                "assets/spectrum.png",
-                fit: BoxFit.fill,
-              ),
+            child: Image.asset(
+              "assets/spectrum.png",
+              fit: BoxFit.fill,
+              width: double.infinity,
             ),
           ),
         ),
-        body: TabBarView(children: [
-          Column(
-            children: [
-              Row(
-                children: const [Text("인기상품"), Text("마감임박")],
-              ),
-              Row(
-                children: const [Text("찜"), Text("추천")],
-              )
-            ],
-          ),
-          GridView.builder(
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3,
-                crossAxisSpacing: 2,
-                mainAxisSpacing: 2,
-                childAspectRatio: 9 / 16),
-            itemBuilder: (context, index) => Column(
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Column(
               children: [
-                Stack(
-                  children: [
-                    Container(
-                      width: 100,
-                      height: 150,
-                      color: Colors.amber,
-                    )
+                const SizedBox(
+                  height: 30,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: const [
+                    Button(
+                      text: '인기상품',
+                      icon: Icon(
+                        Icons.star_rounded,
+                        color: Colors.blue,
+                        size: 50,
+                      ),
+                    ),
+                    Button(
+                      text: '마감임박',
+                      icon: Icon(
+                        Icons.warning_rounded,
+                        size: 50,
+                        color: Colors.deepOrange,
+                      ),
+                    ),
                   ],
+                ),
+                const SizedBox(
+                  height: 25,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: const [
+                    Button(
+                      text: '찜',
+                      icon: Icon(
+                        Icons.favorite_rounded,
+                        size: 50,
+                        color: Colors.orange,
+                      ),
+                    ),
+                    Button(
+                      text: '추천',
+                      icon: Icon(
+                        Icons.thumb_up_rounded,
+                        size: 50,
+                        color: Colors.black54,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 25,
+                ),
+                GridView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 3,
+                    crossAxisSpacing: 2,
+                    mainAxisSpacing: 2,
+                    childAspectRatio: 9 / 16,
+                  ),
+                  itemCount: 15, // 원하는 항목 수로 설정
+                  itemBuilder: (context, index) => Column(
+                    children: [
+                      Stack(
+                        children: [
+                          Container(
+                            width: 100,
+                            height: 150,
+                            color: Colors.amber,
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 )
               ],
             ),
-          )
-        ]),
+          ),
+        ),
       ),
     );
   }

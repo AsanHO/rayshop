@@ -1,20 +1,46 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:rayshop/auth/auth_fire.dart';
 import 'package:rayshop/auth/main_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:rayshop/main_navigation/main_navigation_screen.dart';
 import 'firebase_options.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 void main() async {
-  print("3월 26일 업데이트 입니다:) 파이어베이스 추가");
+  print("5월 4일 업데이트 입니다:) 구글 로그인 추가");
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(const RayShopApp());
+  const storage = FlutterSecureStorage();
+  var email = await storage.read(key: "email");
+  var pw = await storage.read(key: "password");
+  print(email);
+  print(pw);
+  if (email != null && pw != null) {
+    final isSignedIn = await AuthManage().signIn(email, pw);
+    if (isSignedIn) {
+      runApp(const RayShopApp());
+    } else {
+      print("이메일 또는 비밀번호가 일치하지 않습니다.");
+      runApp(const RayShopApp());
+    }
+  } else {
+    print("회원정보가 존재하지 않습니다..");
+    runApp(const RayShopApp());
+  }
 }
 
-class RayShopApp extends StatelessWidget {
-  const RayShopApp({super.key});
+class RayShopApp extends StatefulWidget {
+  const RayShopApp({Key? key}) : super(key: key);
 
+  @override
+  State<RayShopApp> createState() => _RayShopAppState();
+}
+
+class _RayShopAppState extends State<RayShopApp> {
+  User? user = AuthManage().getUser();
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -22,9 +48,7 @@ class RayShopApp extends StatelessWidget {
       theme: ThemeData(
         scaffoldBackgroundColor: Colors.white,
         cardColor: const Color(0xffffea27),
-        errorColor: const Color(0xffff6427),
         primaryColor: const Color(0xff247dff),
-        primarySwatch: Colors.blue,
         appBarTheme: const AppBarTheme(
           backgroundColor: Colors.white,
           foregroundColor: Colors.black,
@@ -35,8 +59,11 @@ class RayShopApp extends StatelessWidget {
             fontWeight: FontWeight.w600,
           ),
         ),
+        colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.blue)
+            .copyWith(error: const Color(0xffff6427)),
       ),
-      home: const MainAuthScreen(),
+      home:
+          user != null ? const MainNavigationScreen() : const MainAuthScreen(),
     );
   }
 }

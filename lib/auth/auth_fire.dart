@@ -2,13 +2,21 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthManage {
   /// 회원가입
-  Future<bool> createUser(String email, String pw) async {
-    final credential =
-        await FirebaseAuth.instance.createUserWithEmailAndPassword(
-      email: email,
-      password: pw,
-    );
-    // authPersistence(); // 인증 영속
+  Future<bool> createUser(String email, String pw, String displayName) async {
+    try {
+      final credential =
+          await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: email,
+        password: pw,
+      );
+      User? user = credential.user;
+      if (user != null) {
+        await user.updateDisplayName(displayName);
+      }
+    } catch (e) {
+      print(e);
+      return false;
+    }
     return true;
   }
 
