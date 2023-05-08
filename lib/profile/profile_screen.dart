@@ -17,7 +17,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           color: Colors.black,
           child: const Text(
             "내 계정",
-            style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
+            style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
           ),
         ),
         actions: [

@@ -15,7 +15,7 @@ class _ChatScreenState extends State<ChatScreen> {
       appBar: AppBar(
         title: const Text(
           "경매 채팅",
-          style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
+          style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
         ),
         actions: [
           IconButton(
@@ -30,19 +30,21 @@ class _ChatScreenState extends State<ChatScreen> {
           ),
         ],
         bottom: PreferredSize(
-          preferredSize: const Size(0, 15),
+          preferredSize: const Size.fromHeight(10),
           child: Image.asset(
-            'assets/spectrum.png',
+            "assets/spectrum.png",
+            fit: BoxFit.fill,
+            width: double.infinity,
           ),
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 25),
+      body: const Padding(
+        padding: EdgeInsets.symmetric(vertical: 25, horizontal: 25),
         child: Column(
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: const [
+              children: [
                 ChatCategory(text: '전체'),
                 ChatCategory(text: '진행중'),
                 ChatCategory(text: '진행 예정'),

@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 
-class ChatCategory extends StatelessWidget {
+class NotiCategory extends StatefulWidget {
   final String text;
+  const NotiCategory({super.key, required this.text});
 
-  const ChatCategory({
-    super.key,
-    required this.text,
-  });
+  @override
+  State<NotiCategory> createState() => _NotiCategoryState();
+}
 
+class _NotiCategoryState extends State<NotiCategory> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -20,8 +21,8 @@ class ChatCategory extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
           child: Text(
-            text,
-            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+            widget.text,
+            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
           ),
         ),
       ),

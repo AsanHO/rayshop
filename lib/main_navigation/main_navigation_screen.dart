@@ -70,7 +70,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
           Offstage(
             offstage: _selectedIndex != 5,
             child: const DetailScreen(),
-          )
+          ),
         ],
       ),
       bottomNavigationBar: BottomAppBar(
