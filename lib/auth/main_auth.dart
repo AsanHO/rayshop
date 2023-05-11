@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:rayshop/auth/login_screen.dart';
 import 'package:rayshop/constants/gaps.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:rayshop/main_navigation/main_navigation_screen.dart';
 
 class MainAuthScreen extends StatelessWidget {
   const MainAuthScreen({super.key});
@@ -13,6 +16,24 @@ class MainAuthScreen extends StatelessWidget {
           builder: (context) => const LoginScreen(),
         ),
       );
+    }
+
+    Future<UserCredential> signInWithGoogle() async {
+      // 구글 로그인 흐름 시작
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+      // 인증 세부 정보 가져오기
+      final GoogleSignInAuthentication? googleAuth =
+          await googleUser?.authentication;
+      // 새 자격 증명 만들기
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth?.accessToken,
+        idToken: googleAuth?.idToken,
+      );
+      Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => const MainNavigationScreen(),
+      ));
+      // 로그인 후 UserCredential 반환
+      return await FirebaseAuth.instance.signInWithCredential(credential);
     }
 
     return Scaffold(
@@ -89,24 +110,29 @@ class MainAuthScreen extends StatelessWidget {
                     ),
                   ),
                   Gaps.v20,
-                  FractionallySizedBox(
-                    widthFactor: 1,
-                    child: Container(
-                      decoration: BoxDecoration(
+                  GestureDetector(
+                    onTap: signInWithGoogle,
+                    child: FractionallySizedBox(
+                      widthFactor: 1,
+                      child: Container(
+                        decoration: BoxDecoration(
                           boxShadow: [
                             BoxShadow(
-                                color: Colors.grey.withOpacity(0.5),
-                                spreadRadius: 2,
-                                blurRadius: 3,
-                                offset: const Offset(0, 3)),
+                              color: Colors.grey.withOpacity(0.5),
+                              spreadRadius: 2,
+                              blurRadius: 3,
+                              offset: const Offset(0, 3),
+                            ),
                           ],
                           borderRadius: BorderRadius.circular(30),
-                          color: Colors.white),
-                      height: 50,
-                      alignment: Alignment.center,
-                      child: const Text(
-                        "구글로 시작하기",
-                        style: TextStyle(color: Colors.black),
+                          color: Color.fromARGB(255, 249, 249, 251),
+                        ),
+                        height: 50,
+                        alignment: Alignment.center,
+                        child: const Text(
+                          "구글로 시작하기",
+                          style: TextStyle(color: Colors.black),
+                        ),
                       ),
                     ),
                   ),
