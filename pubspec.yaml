@@ -43,6 +43,10 @@ dependencies:
   cloud_firestore: ^4.4.5
   firebase_storage: ^11.0.16
   image_picker: ^0.8.4+4
+  flutter_naver_login: ^1.8.0
+  kakao_flutter_sdk_user: ^1.4.2
+  kakao_flutter_sdk: ^1.4.2
+  url_launcher: ^6.1.11
 dev_dependencies:
   flutter_test:
     sdk: flutter
