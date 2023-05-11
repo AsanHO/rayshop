@@ -1,15 +1,16 @@
 import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:rayshop/enroll/widgets/enrollComboBox.dart';
 import 'package:rayshop/enroll/widgets/enrollTextField.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 class EnrollScreen extends StatefulWidget {
   const EnrollScreen({
     super.key,
   });
-
   @override
   State<EnrollScreen> createState() => _EnrollScreenState();
 }
@@ -26,8 +27,10 @@ class _EnrollScreenState extends State<EnrollScreen> {
   }
 
   final user = FirebaseAuth.instance.currentUser?.uid;
+  final _user = FirebaseAuth.instance.currentUser?.uid;
   String _name = "";
   String _price = "";
+
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _priceController = TextEditingController();
   @override
@@ -38,6 +41,7 @@ class _EnrollScreenState extends State<EnrollScreen> {
         _name = _nameController.text;
         print(_name);
         print(user);
+
         //pw2컨트롤러 새로 만들기
       });
     });
@@ -47,6 +51,30 @@ class _EnrollScreenState extends State<EnrollScreen> {
         print(_price);
         //pw2컨트롤러 새로 만들기
       });
+    });
+  }
+
+  void _enroll() async {
+    print(_name);
+    print(_user);
+    print(_price);
+    DateTime endTime = DateTime.now().add(const Duration(minutes: 1));
+    print(_image);
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
+    final storage = FirebaseStorage.instance;
+    final ref = storage.ref().child('images/${DateTime.now()}.jpg');
+    final uploadTask = ref.putFile(_image!);
+    TaskSnapshot storageTaskSnapshot =
+        await uploadTask.whenComplete(() => null);
+
+    // Storage에서 이미지 다운로드 URL 가져오기
+    String imageUrl = await storageTaskSnapshot.ref.getDownloadURL();
+    // Firestore에 데이터 저장하기
+    await firestore.collection('products').add({
+      'uid': _user,
+      'price': _price,
+      'imageUrl': imageUrl,
+      'expirationTime': endTime,
     });
   }
 
@@ -93,13 +121,10 @@ class _EnrollScreenState extends State<EnrollScreen> {
   String dateValue = '날짜';
   String hourValue = '시간';
   String personNumberValue = '제한없음';
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: null,
-      ),
+      appBar: AppBar(),
       body: Scaffold(
         body: SingleChildScrollView(
           child: Padding(
@@ -238,19 +263,22 @@ class _EnrollScreenState extends State<EnrollScreen> {
                           fontSize: 16,
                           fontWeight: FontWeight.w500),
                     ),
-                    Container(
-                      alignment: Alignment.center,
-                      width: 100,
-                      height: 50,
-                      decoration: BoxDecoration(
-                        color: Theme.of(context).primaryColor,
-                      ),
-                      child: const Text(
-                        "등록하기",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500),
+                    GestureDetector(
+                      onTap: _enroll,
+                      child: Container(
+                        alignment: Alignment.center,
+                        width: 100,
+                        height: 50,
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).primaryColor,
+                        ),
+                        child: const Text(
+                          "등록하기",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500),
+                        ),
                       ),
                     ),
                   ],

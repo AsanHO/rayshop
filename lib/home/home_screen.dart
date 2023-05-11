@@ -3,15 +3,24 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:rayshop/home/detail_screen.dart';
 import 'package:rayshop/home/notification_screen.dart';
 import 'package:rayshop/home/widgets/button.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeState();
+  _HomeScreenState createState() => _HomeScreenState();
 }
 
-class _HomeState extends State<HomeScreen> {
+class _HomeScreenState extends State<HomeScreen> {
+  late Stream<QuerySnapshot> _stream;
+
+  @override
+  void initState() {
+    super.initState();
+    _stream = FirebaseFirestore.instance.collection('products').snapshots();
+  }
+
   void _onBellPressed() {}
   @override
   Widget build(BuildContext context) {
@@ -126,39 +135,55 @@ class _HomeState extends State<HomeScreen> {
                 const SizedBox(
                   height: 30,
                 ),
-                GridView.builder(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3,
-                    crossAxisSpacing: 2,
-                    mainAxisSpacing: 2,
-                    childAspectRatio: 9 / 16,
-                  ),
-                  itemCount: 15, // 원하는 항목 수로 설정
-                  itemBuilder: (context, index) => Column(
-                    children: [
-                      Stack(
-                        children: [
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const DetailScreen()),
-                              );
-                            },
-                            child: Container(
-                              width: 100,
-                              height: 150,
-                              color: Colors.amber,
+                StreamBuilder<QuerySnapshot>(
+                  stream: _stream,
+                  builder: (context, snapshot) {
+                    if (!snapshot.hasData) {
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
+
+                    final docs = snapshot.data!.docs;
+
+                    return GridView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        childAspectRatio: 0.75,
+                      ),
+                      itemCount: docs.length,
+                      itemBuilder: (context, index) {
+                        final data = docs[index].data() as Map;
+                        print(data);
+                        return GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => DetailScreen(
+                                  data: data,
+                                  imageUrl: data['imageUrl'],
+                                ),
+                              ),
+                            );
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.all(16),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Image.network(data["imageUrl"]),
+                              ],
                             ),
                           ),
-                        ],
-                      ),
-                    ],
-                  ),
-                )
+                        );
+                      },
+                    );
+                  },
+                ),
               ],
             ),
           ),

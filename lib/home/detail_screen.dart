@@ -3,7 +3,13 @@ import 'package:rayshop/constants/gaps.dart';
 import 'package:rayshop/enroll/widgets/enrollComboBox.dart';
 
 class DetailScreen extends StatefulWidget {
-  const DetailScreen({super.key});
+  final data;
+  final imageUrl;
+  const DetailScreen({
+    super.key,
+    required this.data,
+    required this.imageUrl,
+  });
 
   @override
   State<DetailScreen> createState() => _DetailScreenState();
@@ -36,10 +42,7 @@ class _DetailScreenState extends State<DetailScreen> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Container(
-              height: 350,
-              decoration: const BoxDecoration(color: Colors.yellow),
-            ),
+            Image.network(widget.data['imageUrl']),
             Image.asset(
               "assets/spectrum.png",
               fit: BoxFit.fill,
@@ -70,9 +73,9 @@ class _DetailScreenState extends State<DetailScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text(
-                        '10만원 ~ ',
-                        style: TextStyle(
+                      Text(
+                        "${widget.data['price']}원~",
+                        style: const TextStyle(
                             fontSize: 24, fontWeight: FontWeight.w600),
                       ),
                       Text(
