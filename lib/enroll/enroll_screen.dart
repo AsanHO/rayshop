@@ -11,7 +11,6 @@ class EnrollScreen extends StatefulWidget {
   const EnrollScreen({
     super.key,
   });
-
   @override
   State<EnrollScreen> createState() => _EnrollScreenState();
 }
@@ -27,6 +26,7 @@ class _EnrollScreenState extends State<EnrollScreen> {
     });
   }
 
+  final user = FirebaseAuth.instance.currentUser?.uid;
   final _user = FirebaseAuth.instance.currentUser?.uid;
   String _name = "";
   String _price = "";
@@ -39,6 +39,8 @@ class _EnrollScreenState extends State<EnrollScreen> {
     _nameController.addListener(() {
       setState(() {
         _name = _nameController.text;
+        print(_name);
+        print(user);
 
         //pw2컨트롤러 새로 만들기
       });
@@ -46,6 +48,7 @@ class _EnrollScreenState extends State<EnrollScreen> {
     _priceController.addListener(() {
       setState(() {
         _price = _priceController.text;
+        print(_price);
         //pw2컨트롤러 새로 만들기
       });
     });
@@ -118,7 +121,6 @@ class _EnrollScreenState extends State<EnrollScreen> {
   String dateValue = '날짜';
   String hourValue = '시간';
   String personNumberValue = '제한없음';
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
