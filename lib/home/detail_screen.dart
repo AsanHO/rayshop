@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:rayshop/constants/gaps.dart';
 import 'package:rayshop/enroll/widgets/enrollComboBox.dart';
+import 'package:intl/intl.dart';
 
 class DetailScreen extends StatefulWidget {
   final data;
   final imageUrl;
+
   const DetailScreen({
     super.key,
     required this.data,
@@ -24,6 +26,10 @@ class _DetailScreenState extends State<DetailScreen> {
   ];
   @override
   Widget build(BuildContext context) {
+    String pricestr = widget.data['price'];
+    int price = int.parse(pricestr);
+    final formatter = NumberFormat('#,###,###,###');
+    final formattedPrice = formatter.format(price);
     return Scaffold(
       appBar: AppBar(
         actions: [
@@ -74,7 +80,7 @@ class _DetailScreenState extends State<DetailScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "${widget.data['price']}원~",
+                        "$formattedPrice원~",
                         style: const TextStyle(
                             fontSize: 24, fontWeight: FontWeight.w600),
                       ),
@@ -96,8 +102,8 @@ class _DetailScreenState extends State<DetailScreen> {
                   height: 150,
                   decoration:
                       BoxDecoration(color: Colors.grey.withOpacity(0.2)),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 50),
+                  child: const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 50),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -105,7 +111,7 @@ class _DetailScreenState extends State<DetailScreen> {
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
                             Column(
-                              children: const [
+                              children: [
                                 Text(
                                   '입찰자 신청 마감 시간',
                                   style: TextStyle(
@@ -123,7 +129,7 @@ class _DetailScreenState extends State<DetailScreen> {
                               ],
                             ),
                             Column(
-                              children: const [
+                              children: [
                                 Text(
                                   '현재 입찰자',
                                   style: TextStyle(
