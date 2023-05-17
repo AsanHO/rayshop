@@ -6,7 +6,6 @@ import 'package:intl/intl.dart';
 class DetailScreen extends StatefulWidget {
   final data;
   final imageUrl;
-
   const DetailScreen({
     super.key,
     required this.data,
