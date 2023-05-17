@@ -74,9 +74,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 const SizedBox(
                   height: 30,
                 ),
-                const Row(
+                Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
+                  children: const [
                     Button(
                       text: '인기상품',
                       icon: Icon(
@@ -98,9 +98,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 const SizedBox(
                   height: 25,
                 ),
-                const Row(
+                Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
+                  children: const [
                     Button(
                       text: '찜',
                       icon: Icon(
@@ -122,9 +122,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 const SizedBox(
                   height: 35,
                 ),
-                const Row(
+                Row(
                   mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
+                  children: const [
                     Text(
                       '현재 인기 상승',
                       style:

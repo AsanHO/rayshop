@@ -96,8 +96,8 @@ class _DetailScreenState extends State<DetailScreen> {
                   height: 150,
                   decoration:
                       BoxDecoration(color: Colors.grey.withOpacity(0.2)),
-                  child: const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 50),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 50),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -105,7 +105,7 @@ class _DetailScreenState extends State<DetailScreen> {
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
                             Column(
-                              children: [
+                              children: const [
                                 Text(
                                   '입찰자 신청 마감 시간',
                                   style: TextStyle(
@@ -123,7 +123,7 @@ class _DetailScreenState extends State<DetailScreen> {
                               ],
                             ),
                             Column(
-                              children: [
+                              children: const [
                                 Text(
                                   '현재 입찰자',
                                   style: TextStyle(
