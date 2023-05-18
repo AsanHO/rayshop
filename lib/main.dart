@@ -8,7 +8,7 @@ import 'firebase_options.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 void main() async {
-  print("5월17일 업데이트 입니다:) 로그인 UI, 홈스크린 타이틀, 천 단위 콤마 추가");
+  print("5월18일 업데이트 입니다:) 로그인 이슈 해결");
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
