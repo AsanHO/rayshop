@@ -46,7 +46,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
           ),
         ),
       ),
-      body: const Padding(
+      body: Padding(
         padding: EdgeInsets.symmetric(vertical: 25, horizontal: 25),
         child: Column(
           children: [

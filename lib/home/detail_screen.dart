@@ -96,7 +96,7 @@ class _DetailScreenState extends State<DetailScreen> {
                   height: 150,
                   decoration:
                       BoxDecoration(color: Colors.grey.withOpacity(0.2)),
-                  child: const Padding(
+                  child: Padding(
                     padding: EdgeInsets.symmetric(horizontal: 50),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
