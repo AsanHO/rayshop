@@ -9,7 +9,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:rayshop/main_navigation/main_navigation_screen.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
-import 'package:flutter_naver_login/flutter_naver_login.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class MainAuthScreen extends StatefulWidget {
@@ -25,6 +24,7 @@ class _MainAuthScreenState extends State<MainAuthScreen> {
   }
 
   //네이놈
+  @override
   void initState() {
     super.initState();
     FlutterNaverLogin.initSdk(
@@ -124,7 +124,7 @@ class _MainAuthScreenState extends State<MainAuthScreen> {
           child: Padding(
             padding: const EdgeInsets.all(40),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Column(
                   children: [
@@ -145,7 +145,7 @@ class _MainAuthScreenState extends State<MainAuthScreen> {
                     Image.asset("assets/spectrum.png"),
                   ],
                 ),
-                Gaps.v20,
+                Gaps.v80,
                 GestureDetector(
                   onTap: signInWithNaver,
                   child: FractionallySizedBox(
@@ -172,7 +172,6 @@ class _MainAuthScreenState extends State<MainAuthScreen> {
                     ),
                   ),
                 ),
-                Gaps.v20,
                 GestureDetector(
                   onTap: signInWithKakao,
                   child: FractionallySizedBox(
@@ -188,7 +187,7 @@ class _MainAuthScreenState extends State<MainAuthScreen> {
                           ),
                         ],
                         borderRadius: BorderRadius.circular(30),
-                        color: Color.fromARGB(255, 241, 231, 42),
+                        color: const Color.fromARGB(255, 241, 231, 42),
                       ),
                       height: 50,
                       alignment: Alignment.center,
@@ -199,7 +198,6 @@ class _MainAuthScreenState extends State<MainAuthScreen> {
                     ),
                   ),
                 ),
-                Gaps.v20,
                 GestureDetector(
                   onTap: signInWithGoogle,
                   child: FractionallySizedBox(
@@ -215,7 +213,7 @@ class _MainAuthScreenState extends State<MainAuthScreen> {
                           ),
                         ],
                         borderRadius: BorderRadius.circular(30),
-                        color: Color.fromARGB(255, 249, 249, 251),
+                        color: const Color.fromARGB(255, 249, 249, 251),
                       ),
                       height: 50,
                       alignment: Alignment.center,
@@ -226,7 +224,6 @@ class _MainAuthScreenState extends State<MainAuthScreen> {
                     ),
                   ),
                 ),
-                Gaps.v20,
                 GestureDetector(
                   onTap: _onEmailLoginTap,
                   child: FractionallySizedBox(

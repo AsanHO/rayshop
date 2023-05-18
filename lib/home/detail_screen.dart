@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rayshop/constants/gaps.dart';
 import 'package:rayshop/enroll/widgets/enrollComboBox.dart';
+import 'package:intl/intl.dart';
 
 class DetailScreen extends StatefulWidget {
   final data;
@@ -24,6 +25,10 @@ class _DetailScreenState extends State<DetailScreen> {
   ];
   @override
   Widget build(BuildContext context) {
+    String pricestr = widget.data['price'];
+    int price = int.parse(pricestr);
+    final formatter = NumberFormat('#,###,###,###');
+    final formattedPrice = formatter.format(price);
     return Scaffold(
       appBar: AppBar(
         actions: [
@@ -74,7 +79,7 @@ class _DetailScreenState extends State<DetailScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "${widget.data['price']}원~",
+                        "$formattedPrice원~",
                         style: const TextStyle(
                             fontSize: 24, fontWeight: FontWeight.w600),
                       ),
