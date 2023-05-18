@@ -71,6 +71,7 @@ class _EnrollScreenState extends State<EnrollScreen> {
     String imageUrl = await storageTaskSnapshot.ref.getDownloadURL();
     // Firestore에 데이터 저장하기
     await firestore.collection('products').add({
+      "productName": _name,
       'uid': _user,
       'price': _price,
       'imageUrl': imageUrl,
