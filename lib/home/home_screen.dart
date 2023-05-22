@@ -174,7 +174,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       itemBuilder: (context, index) {
                         final data = docs[index].data() as Map;
                         print(data);
-                        String pricestr = data['price'];
+                        String pricestr = data['price'].toString();
                         int price = int.parse(pricestr);
                         final formatter = NumberFormat('#,###,###,###');
                         final formattedPrice = formatter.format(price);
@@ -202,9 +202,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                       fontSize: 18,
                                       fontWeight: FontWeight.w600),
                                 ),
-                                const Text(
-                                  '의류',
-                                  style: TextStyle(
+                                Text(
+                                  data["productName"],
+                                  style: const TextStyle(
                                     fontSize: 14,
                                   ),
                                 )
