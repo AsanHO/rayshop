@@ -28,6 +28,7 @@ class _DetailScreenState extends State<DetailScreen> {
   late String curBidderName;
   bool isSeller = false;
   late int curPrice;
+  bool isEnd = false;
 
   @override
   void initState() {
@@ -51,7 +52,7 @@ class _DetailScreenState extends State<DetailScreen> {
   void startTimer() {
     timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       calculateTimeRemaining();
-      print(isSeller);
+      print(isEnd);
     });
   }
 
@@ -63,6 +64,7 @@ class _DetailScreenState extends State<DetailScreen> {
     if (difference.isNegative) {
       setState(() {
         timeRemaining = 'Expired';
+        isEnd = true;
       });
       return;
     }
@@ -72,6 +74,7 @@ class _DetailScreenState extends State<DetailScreen> {
     if (minutes == 0 && seconds == 0) {
       setState(() {
         timeRemaining = '00:00';
+        isEnd = true;
       });
       timer?.cancel();
       return;
@@ -238,9 +241,9 @@ class _DetailScreenState extends State<DetailScreen> {
                             ),
                             Column(
                               children: [
-                                const Text(
-                                  '현재 입찰자',
-                                  style: TextStyle(
+                                Text(
+                                  isEnd ? "최종 입찰자" : '현재 입찰자',
+                                  style: const TextStyle(
                                       fontSize: 18,
                                       fontWeight: FontWeight.w600),
                                 ),
