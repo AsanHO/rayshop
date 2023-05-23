@@ -25,6 +25,7 @@ class _DetailScreenState extends State<DetailScreen> {
   late String productUid;
   late String curUid;
   late String curUserName;
+  late String curBidderName;
   bool isSeller = false;
   late int curPrice;
 
@@ -34,6 +35,7 @@ class _DetailScreenState extends State<DetailScreen> {
     productUid = widget.data["uid"];
     curUid = FirebaseAuth.instance.currentUser?.uid ?? "";
     curUserName = FirebaseAuth.instance.currentUser?.displayName ?? "";
+    curBidderName = widget.data["curBidder"];
     isSeller = (productUid == curUid);
     curPrice = widget.data['price'];
     subscribeToPriceUpdates();
@@ -90,7 +92,6 @@ class _DetailScreenState extends State<DetailScreen> {
         .collection('products')
         .where('uid', isEqualTo: widget.data["uid"])
         .get();
-
     // 검색된 문서가 있는지 확인
     if (querySnapshot.docs.isNotEmpty) {
       // 첫 번째로 검색된 문서 가져오기
@@ -100,6 +101,7 @@ class _DetailScreenState extends State<DetailScreen> {
       int newPrice = curPrice + 5000;
       // 문서의 price 필드를 업데이트
       docSnapshot.reference.update({'price': newPrice});
+      docSnapshot.reference.update({'curBidder': curUserName});
     } else {
       // 검색된 문서가 없을 경우에 대한 처리
       print('검색된 물품이 없습니다.');
@@ -113,9 +115,8 @@ class _DetailScreenState extends State<DetailScreen> {
     // 콜렉션("product")에서 uid 필드가 'gZkIpQgPTUV6iVewNZzg9tdqkOF2'인 문서를 구독
     Stream<QuerySnapshot> stream = firestore
         .collection('products')
-        .where('uid', isEqualTo: 'gZkIpQgPTUV6iVewNZzg9tdqkOF2')
+        .where('uid', isEqualTo: widget.data["uid"])
         .snapshots();
-
     // 구독 시작
     stream.listen((QuerySnapshot querySnapshot) {
       // 검색된 문서들 중 첫 번째 문서 가져오기
@@ -123,15 +124,8 @@ class _DetailScreenState extends State<DetailScreen> {
       Map<String, dynamic>? data = docSnapshot.data() as Map<String, dynamic>?;
       // 현재 가격 가져오기
       curPrice = data!['price'];
-      // UI 업데이트 로직 호출
-      updateUI(curPrice);
+      curBidderName = data['curBidder'];
     });
-  }
-
-  void updateUI(int price) {
-    // UI를 업데이트하는 로직을 여기에 구현
-    // 예시로 콘솔에 가격을 출력하는 코드 작성
-    print('현재 가격: $price');
   }
 
   int currentNaviIndex = 0;
@@ -251,9 +245,9 @@ class _DetailScreenState extends State<DetailScreen> {
                                       fontWeight: FontWeight.w600),
                                 ),
                                 Text(
-                                  widget.data["curBidder"],
+                                  curBidderName,
                                   style: const TextStyle(
-                                      fontSize: 38,
+                                      fontSize: 28,
                                       fontWeight: FontWeight.w600,
                                       color: Colors.blue),
                                 ),
