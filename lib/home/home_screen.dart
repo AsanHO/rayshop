@@ -98,7 +98,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 Gaps.v52,
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: const [
+                  children: [
                     Button(
                       text: '인기상품',
                       icon: Icon(
@@ -120,7 +120,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 Gaps.v24,
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: const [
+                  children: [
                     Button(
                       text: '찜',
                       icon: Icon(
@@ -142,7 +142,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 Gaps.v40,
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
-                  children: const [
+                  children: [
                     Text(
                       '현재 인기 상승',
                       style:
