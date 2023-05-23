@@ -71,7 +71,7 @@ class _SearchScreenState extends State<SearchScreen> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const Padding(
+                  Padding(
                     padding: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -118,7 +118,7 @@ class _SearchScreenState extends State<SearchScreen> {
                           ),
                         ],
                       ),
-                      const Padding(
+                      Padding(
                         padding:
                             EdgeInsets.symmetric(vertical: 18, horizontal: 12),
                         child: Column(

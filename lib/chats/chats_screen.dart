@@ -38,7 +38,7 @@ class _ChatScreenState extends State<ChatScreen> {
           ),
         ),
       ),
-      body: const Padding(
+      body: Padding(
         padding: EdgeInsets.symmetric(vertical: 25, horizontal: 25),
         child: Column(
           children: [
