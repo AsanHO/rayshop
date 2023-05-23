@@ -1,3 +1,7 @@
+import 'dart:async';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:rayshop/constants/gaps.dart';
 import 'package:rayshop/enroll/widgets/enrollComboBox.dart';
@@ -16,6 +20,114 @@ class DetailScreen extends StatefulWidget {
 }
 
 class _DetailScreenState extends State<DetailScreen> {
+  String timeRemaining = '';
+  Timer? timer;
+  late String productUid;
+  late String curUid;
+  late String curUserName;
+  late String curBidderName;
+  bool isSeller = false;
+  late int curPrice;
+
+  @override
+  void initState() {
+    super.initState();
+    productUid = widget.data["uid"];
+    curUid = FirebaseAuth.instance.currentUser?.uid ?? "";
+    curUserName = FirebaseAuth.instance.currentUser?.displayName ?? "";
+    curBidderName = widget.data["curBidder"];
+    isSeller = (productUid == curUid);
+    curPrice = widget.data['price'];
+    subscribeToPriceUpdates();
+    startTimer();
+  }
+
+  @override
+  void dispose() {
+    timer?.cancel();
+    super.dispose();
+  }
+
+  void startTimer() {
+    timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      calculateTimeRemaining();
+      print(isSeller);
+    });
+  }
+
+  void calculateTimeRemaining() {
+    DateTime currentTime = DateTime.now();
+    Timestamp expirationTime = widget.data['expirationTime'];
+    Duration difference = expirationTime.toDate().difference(currentTime);
+
+    if (difference.isNegative) {
+      setState(() {
+        timeRemaining = 'Expired';
+      });
+      return;
+    }
+
+    int minutes = difference.inMinutes.remainder(60);
+    int seconds = difference.inSeconds.remainder(60);
+    if (minutes == 0 && seconds == 0) {
+      setState(() {
+        timeRemaining = '00:00';
+      });
+      timer?.cancel();
+      return;
+    }
+    String minutesString = minutes.toString().padLeft(2, '0');
+    String secondsString = seconds.toString().padLeft(2, '0');
+
+    setState(() {
+      timeRemaining = '$minutesString:$secondsString';
+    });
+  }
+
+  void _onBid() async {
+    // Firestore 인스턴스 생성
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
+    // 콜렉션("product")에서 uid 필드가 'gZkIpQgPTUV6iVewNZzg9tdqkOF2'인 문서를 가져옴
+    QuerySnapshot querySnapshot = await firestore
+        .collection('products')
+        .where('uid', isEqualTo: widget.data["uid"])
+        .get();
+    // 검색된 문서가 있는지 확인
+    if (querySnapshot.docs.isNotEmpty) {
+      // 첫 번째로 검색된 문서 가져오기
+      QueryDocumentSnapshot docSnapshot = querySnapshot.docs.first;
+      // 현재 가격 가져오기
+      // 가격 증가
+      int newPrice = curPrice + 5000;
+      // 문서의 price 필드를 업데이트
+      docSnapshot.reference.update({'price': newPrice});
+      docSnapshot.reference.update({'curBidder': curUserName});
+    } else {
+      // 검색된 문서가 없을 경우에 대한 처리
+      print('검색된 물품이 없습니다.');
+    }
+  }
+
+  void subscribeToPriceUpdates() {
+    // Firestore 인스턴스 생성
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+    // 콜렉션("product")에서 uid 필드가 'gZkIpQgPTUV6iVewNZzg9tdqkOF2'인 문서를 구독
+    Stream<QuerySnapshot> stream = firestore
+        .collection('products')
+        .where('uid', isEqualTo: widget.data["uid"])
+        .snapshots();
+    // 구독 시작
+    stream.listen((QuerySnapshot querySnapshot) {
+      // 검색된 문서들 중 첫 번째 문서 가져오기
+      QueryDocumentSnapshot docSnapshot = querySnapshot.docs.first;
+      Map<String, dynamic>? data = docSnapshot.data() as Map<String, dynamic>?;
+      // 현재 가격 가져오기
+      curPrice = data!['price'];
+      curBidderName = data['curBidder'];
+    });
+  }
+
   int currentNaviIndex = 0;
   String selectedValue = '경쟁 입찰';
   List combobox = [
@@ -24,6 +136,8 @@ class _DetailScreenState extends State<DetailScreen> {
   ];
   @override
   Widget build(BuildContext context) {
+    String pricestr = widget.data['price'].toString();
+    int price = int.parse(pricestr);
     return Scaffold(
       appBar: AppBar(
         actions: [
@@ -55,9 +169,9 @@ class _DetailScreenState extends State<DetailScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text(
-                        '에어팟 프로',
-                        style: TextStyle(
+                      Text(
+                        widget.data["productName"],
+                        style: const TextStyle(
                             fontSize: 16, fontWeight: FontWeight.w600),
                       ),
                       Text(
@@ -74,7 +188,7 @@ class _DetailScreenState extends State<DetailScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "${widget.data['price']}원~",
+                        "$curPrice원~",
                         style: const TextStyle(
                             fontSize: 24, fontWeight: FontWeight.w600),
                       ),
@@ -96,8 +210,8 @@ class _DetailScreenState extends State<DetailScreen> {
                   height: 150,
                   decoration:
                       BoxDecoration(color: Colors.grey.withOpacity(0.2)),
-                  child: const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 50),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 50),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -106,7 +220,7 @@ class _DetailScreenState extends State<DetailScreen> {
                           children: [
                             Column(
                               children: [
-                                Text(
+                                const Text(
                                   '입찰자 신청 마감 시간',
                                   style: TextStyle(
                                       fontSize: 18,
@@ -114,8 +228,8 @@ class _DetailScreenState extends State<DetailScreen> {
                                 ),
                                 Gaps.v10,
                                 Text(
-                                  '30:03',
-                                  style: TextStyle(
+                                  timeRemaining,
+                                  style: const TextStyle(
                                       fontSize: 38,
                                       fontWeight: FontWeight.w600,
                                       color: Colors.orange),
@@ -124,16 +238,16 @@ class _DetailScreenState extends State<DetailScreen> {
                             ),
                             Column(
                               children: [
-                                Text(
+                                const Text(
                                   '현재 입찰자',
                                   style: TextStyle(
                                       fontSize: 18,
                                       fontWeight: FontWeight.w600),
                                 ),
                                 Text(
-                                  '3명',
-                                  style: TextStyle(
-                                      fontSize: 38,
+                                  curBidderName,
+                                  style: const TextStyle(
+                                      fontSize: 28,
                                       fontWeight: FontWeight.w600,
                                       color: Colors.blue),
                                 ),
@@ -242,20 +356,26 @@ class _DetailScreenState extends State<DetailScreen> {
                 ),
                 GestureDetector(
                   onTap: () {},
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.blue,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: const Padding(
-                      padding:
-                          EdgeInsets.symmetric(vertical: 13, horizontal: 50),
-                      child: Text(
-                        '수정하기',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.white,
+                  child: GestureDetector(
+                    onTap: _onBid,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.blue,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 13, horizontal: 50),
+                        child: GestureDetector(
+                          onTap: _onBid,
+                          child: Text(
+                            isSeller ? '수정하기' : "입찰하기",
+                            style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.white,
+                            ),
+                          ),
                         ),
                       ),
                     ),

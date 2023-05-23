@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:intl/intl.dart';
+import 'package:rayshop/constants/gaps.dart';
 import 'package:rayshop/home/detail_screen.dart';
 import 'package:rayshop/home/notification_screen.dart';
 import 'package:rayshop/home/widgets/button.dart';
@@ -71,12 +73,32 @@ class _HomeScreenState extends State<HomeScreen> {
             padding: const EdgeInsets.all(20),
             child: Column(
               children: [
-                const SizedBox(
-                  height: 30,
+                Gaps.v10,
+                const Text(
+                  '가볍고 빠른 거래 레이숍',
+                  style: TextStyle(fontSize: 16),
                 ),
-                const Row(
+                const Text.rich(
+                  TextSpan(
+                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
+                    children: [
+                      TextSpan(
+                        text: '지금 ',
+                      ),
+                      TextSpan(
+                        text: '경매',
+                        style: TextStyle(color: Colors.deepOrange),
+                      ),
+                      TextSpan(
+                        text: '를 시작해보세요!',
+                      ),
+                    ],
+                  ),
+                ),
+                Gaps.v52,
+                Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
+                  children: const [
                     Button(
                       text: '인기상품',
                       icon: Icon(
@@ -95,12 +117,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ],
                 ),
-                const SizedBox(
-                  height: 25,
-                ),
-                const Row(
+                Gaps.v24,
+                Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
+                  children: const [
                     Button(
                       text: '찜',
                       icon: Icon(
@@ -119,12 +139,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ],
                 ),
-                const SizedBox(
-                  height: 35,
-                ),
-                const Row(
+                Gaps.v40,
+                Row(
                   mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
+                  children: const [
                     Text(
                       '현재 인기 상승',
                       style:
@@ -132,9 +150,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ],
                 ),
-                const SizedBox(
-                  height: 30,
-                ),
+                Gaps.v20,
                 StreamBuilder<QuerySnapshot>(
                   stream: _stream,
                   builder: (context, snapshot) {
@@ -158,6 +174,10 @@ class _HomeScreenState extends State<HomeScreen> {
                       itemBuilder: (context, index) {
                         final data = docs[index].data() as Map;
                         print(data);
+                        String pricestr = data['price'].toString();
+                        int price = int.parse(pricestr);
+                        final formatter = NumberFormat('#,###,###,###');
+                        final formattedPrice = formatter.format(price);
                         return GestureDetector(
                           onTap: () {
                             Navigator.push(
@@ -176,6 +196,18 @@ class _HomeScreenState extends State<HomeScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Image.network(data["imageUrl"]),
+                                Text(
+                                  "$formattedPrice원",
+                                  style: const TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w600),
+                                ),
+                                Text(
+                                  data["productName"],
+                                  style: const TextStyle(
+                                    fontSize: 14,
+                                  ),
+                                )
                               ],
                             ),
                           ),

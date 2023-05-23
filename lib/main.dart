@@ -8,7 +8,7 @@ import 'firebase_options.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 void main() async {
-  print("5월11일 업데이트 입니다:) 네이버 , 카카오 , 현서 퓨전");
+  print("5월18일 업데이트 입니다:) 로그인 이슈 해결");
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
