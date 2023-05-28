@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:rayshop/constants/gaps.dart';
 import 'package:rayshop/enroll/widgets/enrollComboBox.dart';
+import 'package:intl/intl.dart';
 
 class DetailScreen extends StatefulWidget {
   final data;
@@ -29,6 +30,7 @@ class _DetailScreenState extends State<DetailScreen> {
   bool isSeller = false;
   late int curPrice;
   bool isEnd = false;
+  late String postTime;
 
   @override
   void initState() {
@@ -41,6 +43,15 @@ class _DetailScreenState extends State<DetailScreen> {
     curPrice = widget.data['price'];
     subscribeToPriceUpdates();
     startTimer();
+    fetchPostTime();
+  }
+
+  void fetchPostTime() async {
+    Timestamp timestamp = widget.data['postTime'];
+    DateTime dateTime = timestamp.toDate();
+    postTime = DateFormat("yyyy-MM-dd HH:mm:ss").format(dateTime);
+
+    setState(() {});
   }
 
   @override
@@ -85,6 +96,22 @@ class _DetailScreenState extends State<DetailScreen> {
     setState(() {
       timeRemaining = '$minutesString:$secondsString';
     });
+  }
+
+  String getElapsedTime() {
+    DateTime currentTime = DateTime.now();
+    DateTime parsedTime = DateFormat("yyyy-MM-dd HH:mm:ss").parse(postTime);
+    Duration diff = currentTime.difference(parsedTime);
+
+    if (diff.inMinutes < 1) {
+      return "방금 전";
+    } else if (diff.inMinutes < 60) {
+      return "${diff.inMinutes}분 전";
+    } else if (diff.inHours < 24) {
+      return "${diff.inHours}시간 전";
+    } else {
+      return DateFormat("MM월 dd일").format(parsedTime);
+    }
   }
 
   void _onBid() async {
@@ -139,6 +166,7 @@ class _DetailScreenState extends State<DetailScreen> {
   ];
   @override
   Widget build(BuildContext context) {
+    String elapsedTime = postTime != null ? getElapsedTime() : "";
     String pricestr = widget.data['price'].toString();
     int price = int.parse(pricestr);
     return Scaffold(
@@ -172,13 +200,19 @@ class _DetailScreenState extends State<DetailScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        widget.data["productName"],
-                        style: const TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.w600),
+                      Expanded(
+                        child: Text(
+                          widget.data["productName"],
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
                       ),
                       Text(
-                        '전자 / 디지털기기',
+                        widget.data["category"],
                         style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w600,
@@ -191,12 +225,14 @@ class _DetailScreenState extends State<DetailScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "$curPrice원~",
+                        "${NumberFormat('#,###').format(curPrice)}원~",
                         style: const TextStyle(
-                            fontSize: 24, fontWeight: FontWeight.w600),
+                          fontSize: 24,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                       Text(
-                        '34분 전',
+                        elapsedTime,
                         style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w600,
@@ -214,50 +250,45 @@ class _DetailScreenState extends State<DetailScreen> {
                   decoration:
                       BoxDecoration(color: Colors.grey.withOpacity(0.2)),
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 50),
+                    padding: const EdgeInsets.symmetric(horizontal: 40),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Column(
-                              children: [
-                                const Text(
-                                  '입찰자 신청 마감 시간',
-                                  style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w600),
-                                ),
-                                Gaps.v10,
-                                Text(
-                                  timeRemaining,
-                                  style: const TextStyle(
-                                      fontSize: 38,
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.orange),
-                                ),
-                              ],
+                            const Text(
+                              '입찰 마감 시간',
+                              style: TextStyle(
+                                  fontSize: 18, fontWeight: FontWeight.w600),
                             ),
-                            Column(
-                              children: [
-                                Text(
-                                  isEnd ? "최종 입찰자" : '현재 입찰자',
-                                  style: const TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w600),
-                                ),
-                                Text(
-                                  curBidderName,
-                                  style: const TextStyle(
-                                      fontSize: 28,
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.blue),
-                                ),
-                              ],
+                            Text(
+                              isEnd ? "최종 입찰자" : '현재 입찰자',
+                              style: const TextStyle(
+                                  fontSize: 18, fontWeight: FontWeight.w600),
                             ),
                           ],
                         ),
+                        Gaps.v14,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              timeRemaining,
+                              style: const TextStyle(
+                                  fontSize: 38,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.orange),
+                            ),
+                            Text(
+                              curBidderName,
+                              style: const TextStyle(
+                                  fontSize: 28,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.blue),
+                            ),
+                          ],
+                        )
                       ],
                     ),
                   ),
@@ -358,32 +389,26 @@ class _DetailScreenState extends State<DetailScreen> {
                   ),
                 ),
                 GestureDetector(
-                  onTap: () {},
-                  child: GestureDetector(
-                    onTap: _onBid,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.blue,
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 13, horizontal: 50),
-                        child: GestureDetector(
-                          onTap: _onBid,
-                          child: Text(
-                            isSeller ? '수정하기' : "입찰하기",
-                            style: const TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.white,
-                            ),
-                          ),
+                  onTap: isEnd ? null : _onBid,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: isEnd ? Colors.grey : Colors.orange,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 13, horizontal: 25),
+                      child: Text(
+                        isEnd ? '종료된 입찰' : '입찰하기',
+                        style: const TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.white,
                         ),
                       ),
                     ),
                   ),
-                )
+                ),
               ],
             ),
           ),

@@ -30,9 +30,12 @@ class _EnrollScreenState extends State<EnrollScreen> {
   final _user = FirebaseAuth.instance.currentUser?.uid;
   String _name = "";
   String _price = "";
+  String _category = "";
 
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _priceController = TextEditingController();
+  final TextEditingController _categoryController = TextEditingController();
+
   @override
   void initState() {
     super.initState();
@@ -42,14 +45,19 @@ class _EnrollScreenState extends State<EnrollScreen> {
         print(_name);
         print(_user);
 
-        //pw2컨트롤러 새로 만들기
+        // pw2컨트롤러 새로 만들기
       });
     });
     _priceController.addListener(() {
       setState(() {
         _price = _priceController.text;
         print(_price);
-        //pw2컨트롤러 새로 만들기
+      });
+    });
+    _categoryController.addListener(() {
+      setState(() {
+        _category = _categoryController.text;
+        print(_category);
       });
     });
   }
@@ -58,6 +66,7 @@ class _EnrollScreenState extends State<EnrollScreen> {
     print(_name);
     print(_user);
     print(_price);
+    print(_category);
     DateTime endTime = DateTime.now().add(const Duration(minutes: 10));
     print(_image);
     FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -75,8 +84,10 @@ class _EnrollScreenState extends State<EnrollScreen> {
       "productName": _name,
       'uid': _user,
       'price': int.parse(_price),
+      'category': _category,
       'imageUrl': imageUrl,
       'expirationTime': endTime,
+      'postTime': DateTime.now(),
     });
     Navigator.of(context).push(
       MaterialPageRoute(
@@ -167,9 +178,10 @@ class _EnrollScreenState extends State<EnrollScreen> {
                   showCheckbox: false,
                   controller: _nameController,
                 ),
-                const EnrollTextField(
+                EnrollTextField(
                   title: '카테고리',
                   showCheckbox: false,
+                  controller: _categoryController,
                 ),
                 EnrollTextField(
                   title: '가격',
