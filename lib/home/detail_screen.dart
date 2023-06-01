@@ -117,6 +117,9 @@ class _DetailScreenState extends State<DetailScreen> {
   }
 
   void _onBid() async {
+    if (isSeller) {
+      return;
+    }
     // Firestore 인스턴스 생성
     DocumentReference documentRef =
         FirebaseFirestore.instance.collection('products').doc(widget.dataId);
