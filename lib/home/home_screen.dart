@@ -174,7 +174,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       itemBuilder: (context, index) {
                         final data = docs[index].data() as Map;
                         print(data);
-
+                        String documentId = docs[index].id; // 문서 ID 가져오기
                         String productName = data["productName"];
                         if (productName.length > 15) {
                           productName = "${productName.substring(0, 12)}...";
@@ -187,6 +187,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               MaterialPageRoute(
                                 builder: (context) => DetailScreen(
                                   data: data,
+                                  dataId: docs[index].id,
                                   imageUrl: data['imageUrl'],
                                 ),
                               ),
