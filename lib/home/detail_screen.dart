@@ -52,7 +52,6 @@ class _DetailScreenState extends State<DetailScreen> {
     Timestamp timestamp = widget.data['postTime'];
     DateTime dateTime = timestamp.toDate();
     postTime = DateFormat("yyyy-MM-dd HH:mm:ss").format(dateTime);
-
     setState(() {});
   }
 
@@ -65,7 +64,8 @@ class _DetailScreenState extends State<DetailScreen> {
   void startTimer() {
     timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       calculateTimeRemaining();
-      print(isEnd);
+      print(uid);
+      print(curUid);
     });
   }
 
@@ -401,7 +401,7 @@ class _DetailScreenState extends State<DetailScreen> {
                       padding: const EdgeInsets.symmetric(
                           vertical: 13, horizontal: 25),
                       child: Text(
-                        isEnd ? '종료된 입찰' : '입찰하기',
+                        isSeller ? '수정하기' : '입찰하기',
                         style: const TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.w600,
