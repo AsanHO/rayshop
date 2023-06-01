@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
+import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'package:rayshop/constants/gaps.dart';
 import 'package:rayshop/home/detail_screen.dart';
 import 'package:rayshop/home/notification_screen.dart';
@@ -21,6 +22,10 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     _stream = FirebaseFirestore.instance.collection('products').snapshots();
+  }
+
+  void printNickName() {
+    print("");
   }
 
   void _onBellPressed() {}

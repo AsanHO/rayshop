@@ -169,17 +169,24 @@ class _DetailScreenState extends State<DetailScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        widget.data["productName"],
-                        style: const TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.w600),
+                      Expanded(
+                        child: Text(
+                          widget.data["productName"],
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                          ),
+                          maxLines: 2, // 최대 2줄까지 표시
+                          overflow: TextOverflow.ellipsis, // 넘칠 경우 줄임표 (...) 표시
+                        ),
                       ),
                       Text(
                         '전자 / 디지털기기',
                         style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.black.withOpacity(0.4)),
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.black.withOpacity(0.4),
+                        ),
                       ),
                     ],
                   ),

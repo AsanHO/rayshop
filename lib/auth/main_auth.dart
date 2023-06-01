@@ -68,6 +68,7 @@ class _MainAuthScreenState extends State<MainAuthScreen> {
       }
       _launchNaverLoginPage();
     }
+    
 
     //카카오 로그인
     void signInWithKakao() async {
@@ -81,16 +82,17 @@ class _MainAuthScreenState extends State<MainAuthScreen> {
             : await UserApi.instance.loginWithKakaoAccount();
 
         final url = Uri.https('kapi.kakao.com', '/v2/user/me');
-
+         
         final response = await http.get(
           url,
           headers: {
             HttpHeaders.authorizationHeader: 'Bearer ${token.accessToken}'
           },
         );
-
+        
         final profileInfo = json.decode(response.body);
-        print(profileInfo.toString());
+        print(profileInfo.toString()+"카카오톡 로그인 정보를 알려줘");
+        
         Navigator.of(context).push(MaterialPageRoute(
           builder: (context) => const MainNavigationScreen(),
         ));
