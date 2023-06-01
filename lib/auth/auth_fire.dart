@@ -28,6 +28,7 @@ class AuthManage {
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         print("존재하지 않는 유저입니다.");
+        return false;
       } else if (e.code == 'wrong-password') {
         print("비밀번호가 일치하지 않습니다.");
       }

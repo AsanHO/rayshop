@@ -119,140 +119,142 @@ class _MainAuthScreenState extends State<MainAuthScreen> {
     }
 
     return Scaffold(
-        appBar: AppBar(title: const Text("Welcome to RAYSHOP")),
         body: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.all(40),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      child: Padding(
+        padding: const EdgeInsets.all(40),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(right: 20),
+              child: Image.asset("assets/character.png"),
+            ),
+            Column(
               children: [
-                Column(
-                  children: [
-                    Gaps.v120,
-                    const DefaultTextStyle(
-                      style: TextStyle(fontSize: 23, color: Colors.black),
-                      child: Text.rich(
+                const DefaultTextStyle(
+                  style: TextStyle(fontSize: 23, color: Colors.black),
+                  child: Text.rich(
+                    TextSpan(
+                      text: '빛보다 빠른 거래',
+                      children: <TextSpan>[
                         TextSpan(
-                          text: '빛보다 빠른 거래',
-                          children: <TextSpan>[
-                            TextSpan(
-                                text: ' 레이숍!',
-                                style: TextStyle(fontWeight: FontWeight.bold)),
-                          ],
-                        ),
-                      ),
-                    ),
-                    Image.asset("assets/spectrum.png"),
-                  ],
-                ),
-                Gaps.v80,
-                GestureDetector(
-                  onTap: signInWithNaver,
-                  child: FractionallySizedBox(
-                    widthFactor: 1,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
-                            spreadRadius: 2,
-                            blurRadius: 3,
-                            offset: const Offset(0, 3),
-                          ),
-                        ],
-                        borderRadius: BorderRadius.circular(30),
-                        color: const Color(0xff2db400),
-                      ),
-                      height: 50,
-                      alignment: Alignment.center,
-                      child: const Text(
-                        "네이버로 시작하기",
-                        style: TextStyle(color: Colors.white),
-                      ),
+                            text: ' 레이숍!',
+                            style: TextStyle(fontWeight: FontWeight.bold)),
+                      ],
                     ),
                   ),
                 ),
-                GestureDetector(
-                  onTap: signInWithKakao,
-                  child: FractionallySizedBox(
-                    widthFactor: 1,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
-                            spreadRadius: 2,
-                            blurRadius: 3,
-                            offset: const Offset(0, 3),
-                          ),
-                        ],
-                        borderRadius: BorderRadius.circular(30),
-                        color: const Color.fromARGB(255, 241, 231, 42),
-                      ),
-                      height: 50,
-                      alignment: Alignment.center,
-                      child: const Text(
-                        "카카오톡으로 시작하기",
-                        style: TextStyle(color: Color.fromARGB(255, 6, 6, 6)),
-                      ),
-                    ),
-                  ),
-                ),
-                GestureDetector(
-                  onTap: signInWithGoogle,
-                  child: FractionallySizedBox(
-                    widthFactor: 1,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
-                            spreadRadius: 2,
-                            blurRadius: 3,
-                            offset: const Offset(0, 3),
-                          ),
-                        ],
-                        borderRadius: BorderRadius.circular(30),
-                        color: const Color.fromARGB(255, 249, 249, 251),
-                      ),
-                      height: 50,
-                      alignment: Alignment.center,
-                      child: const Text(
-                        "구글로 시작하기",
-                        style: TextStyle(color: Colors.black),
-                      ),
-                    ),
-                  ),
-                ),
-                GestureDetector(
-                  onTap: _onEmailLoginTap,
-                  child: FractionallySizedBox(
-                    widthFactor: 1,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        boxShadow: [
-                          BoxShadow(
-                              color: Colors.grey.withOpacity(0.5),
-                              spreadRadius: 2,
-                              blurRadius: 3,
-                              offset: const Offset(0, 3)),
-                        ],
-                        borderRadius: BorderRadius.circular(30),
-                        color: Theme.of(context).primaryColor,
-                      ),
-                      height: 50,
-                      alignment: Alignment.center,
-                      child: const Text(
-                        "이메일로 시작하기",
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ),
-                  ),
-                ),
-                Gaps.v20,
+                Image.asset("assets/spectrum.png"),
               ],
             ),
-          ),
-        ));
+            Gaps.v80,
+            GestureDetector(
+              onTap: signInWithNaver,
+              child: FractionallySizedBox(
+                widthFactor: 1,
+                child: Container(
+                  decoration: BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.5),
+                        spreadRadius: 2,
+                        blurRadius: 3,
+                        offset: const Offset(0, 3),
+                      ),
+                    ],
+                    borderRadius: BorderRadius.circular(30),
+                    color: const Color(0xff2db400),
+                  ),
+                  height: 50,
+                  alignment: Alignment.center,
+                  child: const Text(
+                    "네이버로 시작하기",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+              ),
+            ),
+            GestureDetector(
+              onTap: signInWithKakao,
+              child: FractionallySizedBox(
+                widthFactor: 1,
+                child: Container(
+                  decoration: BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.5),
+                        spreadRadius: 2,
+                        blurRadius: 3,
+                        offset: const Offset(0, 3),
+                      ),
+                    ],
+                    borderRadius: BorderRadius.circular(30),
+                    color: const Color.fromARGB(255, 241, 231, 42),
+                  ),
+                  height: 50,
+                  alignment: Alignment.center,
+                  child: const Text(
+                    "카카오톡으로 시작하기",
+                    style: TextStyle(color: Color.fromARGB(255, 6, 6, 6)),
+                  ),
+                ),
+              ),
+            ),
+            GestureDetector(
+              onTap: signInWithGoogle,
+              child: FractionallySizedBox(
+                widthFactor: 1,
+                child: Container(
+                  decoration: BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.5),
+                        spreadRadius: 2,
+                        blurRadius: 3,
+                        offset: const Offset(0, 3),
+                      ),
+                    ],
+                    borderRadius: BorderRadius.circular(30),
+                    color: const Color.fromARGB(255, 249, 249, 251),
+                  ),
+                  height: 50,
+                  alignment: Alignment.center,
+                  child: const Text(
+                    "구글로 시작하기",
+                    style: TextStyle(color: Colors.black),
+                  ),
+                ),
+              ),
+            ),
+            GestureDetector(
+              onTap: _onEmailLoginTap,
+              child: FractionallySizedBox(
+                widthFactor: 1,
+                child: Container(
+                  decoration: BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(
+                          color: Colors.grey.withOpacity(0.5),
+                          spreadRadius: 2,
+                          blurRadius: 3,
+                          offset: const Offset(0, 3)),
+                    ],
+                    borderRadius: BorderRadius.circular(30),
+                    color: Theme.of(context).primaryColor,
+                  ),
+                  height: 50,
+                  alignment: Alignment.center,
+                  child: const Text(
+                    "이메일로 시작하기",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+              ),
+            ),
+            Gaps.v20,
+          ],
+        ),
+      ),
+    ));
   }
 }

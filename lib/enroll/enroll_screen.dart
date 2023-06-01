@@ -6,6 +6,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:rayshop/enroll/widgets/enrollComboBox.dart';
 import 'package:rayshop/enroll/widgets/enrollTextField.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:rayshop/main_navigation/main_navigation_screen.dart';
 
 class EnrollScreen extends StatefulWidget {
   const EnrollScreen({
@@ -26,13 +27,15 @@ class _EnrollScreenState extends State<EnrollScreen> {
     });
   }
 
-  final user = FirebaseAuth.instance.currentUser?.uid;
   final _user = FirebaseAuth.instance.currentUser?.uid;
   String _name = "";
   String _price = "";
+  String _category = "";
 
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _priceController = TextEditingController();
+  final TextEditingController _categoryController = TextEditingController();
+
   @override
   void initState() {
     super.initState();
@@ -40,16 +43,21 @@ class _EnrollScreenState extends State<EnrollScreen> {
       setState(() {
         _name = _nameController.text;
         print(_name);
-        print(user);
+        print(_user);
 
-        //pw2컨트롤러 새로 만들기
+        // pw2컨트롤러 새로 만들기
       });
     });
     _priceController.addListener(() {
       setState(() {
         _price = _priceController.text;
         print(_price);
-        //pw2컨트롤러 새로 만들기
+      });
+    });
+    _categoryController.addListener(() {
+      setState(() {
+        _category = _categoryController.text;
+        print(_category);
       });
     });
   }
@@ -58,7 +66,8 @@ class _EnrollScreenState extends State<EnrollScreen> {
     print(_name);
     print(_user);
     print(_price);
-    DateTime endTime = DateTime.now().add(const Duration(minutes: 1));
+    print(_category);
+    DateTime endTime = DateTime.now().add(const Duration(minutes: 10));
     print(_image);
     FirebaseFirestore firestore = FirebaseFirestore.instance;
     final storage = FirebaseStorage.instance;
@@ -71,11 +80,20 @@ class _EnrollScreenState extends State<EnrollScreen> {
     String imageUrl = await storageTaskSnapshot.ref.getDownloadURL();
     // Firestore에 데이터 저장하기
     await firestore.collection('products').add({
+      "curBidder": "0명",
+      "productName": _name,
       'uid': _user,
-      'price': _price,
+      'price': int.parse(_price),
+      'category': _category,
       'imageUrl': imageUrl,
       'expirationTime': endTime,
+      'postTime': DateTime.now(),
     });
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => const MainNavigationScreen(),
+      ),
+    );
   }
 
   @override
@@ -160,9 +178,10 @@ class _EnrollScreenState extends State<EnrollScreen> {
                   showCheckbox: false,
                   controller: _nameController,
                 ),
-                const EnrollTextField(
+                EnrollTextField(
                   title: '카테고리',
                   showCheckbox: false,
+                  controller: _categoryController,
                 ),
                 EnrollTextField(
                   title: '가격',
