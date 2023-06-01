@@ -96,9 +96,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 Gaps.v52,
-                const Row(
+                Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
+                  children: const [
                     Button(
                       text: '인기상품',
                       icon: Icon(
@@ -118,9 +118,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 ),
                 Gaps.v24,
-                const Row(
+                Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
+                  children: const [
                     Button(
                       text: '찜',
                       icon: Icon(
@@ -140,9 +140,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 ),
                 Gaps.v40,
-                const Row(
+                Row(
                   mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
+                  children: const [
                     Text(
                       '현재 인기 상승',
                       style:
@@ -174,7 +174,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       itemBuilder: (context, index) {
                         final data = docs[index].data() as Map;
                         print(data);
-
+                        String documentId = docs[index].id; // 문서 ID 가져오기
                         String productName = data["productName"];
                         if (productName.length > 15) {
                           productName = "${productName.substring(0, 12)}...";
@@ -187,6 +187,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               MaterialPageRoute(
                                 builder: (context) => DetailScreen(
                                   data: data,
+                                  dataId: docs[index].id,
                                   imageUrl: data['imageUrl'],
                                 ),
                               ),

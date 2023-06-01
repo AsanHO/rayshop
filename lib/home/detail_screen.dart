@@ -10,10 +10,12 @@ import 'package:intl/intl.dart';
 class DetailScreen extends StatefulWidget {
   final data;
   final imageUrl;
+  final dataId;
   const DetailScreen({
     super.key,
     required this.data,
     required this.imageUrl,
+    this.dataId,
   });
 
   @override
@@ -23,7 +25,7 @@ class DetailScreen extends StatefulWidget {
 class _DetailScreenState extends State<DetailScreen> {
   String timeRemaining = '';
   Timer? timer;
-  late String productUid;
+  late String uid;
   late String curUid;
   late String curUserName;
   late String curBidderName;
@@ -35,11 +37,11 @@ class _DetailScreenState extends State<DetailScreen> {
   @override
   void initState() {
     super.initState();
-    productUid = widget.data["uid"];
+    uid = widget.data["uid"];
     curUid = FirebaseAuth.instance.currentUser?.uid ?? "";
     curUserName = FirebaseAuth.instance.currentUser?.displayName ?? "";
     curBidderName = widget.data["curBidder"];
-    isSeller = (productUid == curUid);
+    isSeller = (uid == curUid);
     curPrice = widget.data['price'];
     subscribeToPriceUpdates();
     startTimer();
@@ -116,22 +118,22 @@ class _DetailScreenState extends State<DetailScreen> {
 
   void _onBid() async {
     // Firestore 인스턴스 생성
-    FirebaseFirestore firestore = FirebaseFirestore.instance;
+    DocumentReference documentRef =
+        FirebaseFirestore.instance.collection('products').doc(widget.dataId);
+    DocumentSnapshot docSnapshot = await documentRef.get();
     // 콜렉션("product")에서 uid 필드가 'gZkIpQgPTUV6iVewNZzg9tdqkOF2'인 문서를 가져옴
-    QuerySnapshot querySnapshot = await firestore
-        .collection('products')
-        .where('uid', isEqualTo: widget.data["uid"])
-        .get();
     // 검색된 문서가 있는지 확인
-    if (querySnapshot.docs.isNotEmpty) {
-      // 첫 번째로 검색된 문서 가져오기
-      QueryDocumentSnapshot docSnapshot = querySnapshot.docs.first;
+    if (docSnapshot.exists) {
       // 현재 가격 가져오기
       // 가격 증가
       int newPrice = curPrice + 5000;
       // 문서의 price 필드를 업데이트
       docSnapshot.reference.update({'price': newPrice});
       docSnapshot.reference.update({'curBidder': curUserName});
+      await documentRef.update({
+        'price': newPrice,
+        'curUserName': curUserName,
+      });
     } else {
       // 검색된 문서가 없을 경우에 대한 처리
       print('검색된 물품이 없습니다.');
@@ -143,18 +145,18 @@ class _DetailScreenState extends State<DetailScreen> {
     FirebaseFirestore firestore = FirebaseFirestore.instance;
 
     // 콜렉션("product")에서 uid 필드가 'gZkIpQgPTUV6iVewNZzg9tdqkOF2'인 문서를 구독
-    Stream<QuerySnapshot> stream = firestore
-        .collection('products')
-        .where('uid', isEqualTo: widget.data["uid"])
-        .snapshots();
+    Stream<DocumentSnapshot> stream =
+        firestore.collection('products').doc(widget.dataId).snapshots();
+
     // 구독 시작
-    stream.listen((QuerySnapshot querySnapshot) {
-      // 검색된 문서들 중 첫 번째 문서 가져오기
-      QueryDocumentSnapshot docSnapshot = querySnapshot.docs.first;
-      Map<String, dynamic>? data = docSnapshot.data() as Map<String, dynamic>?;
-      // 현재 가격 가져오기
-      curPrice = data!['price'];
-      curBidderName = data['curBidder'];
+    stream.listen((DocumentSnapshot documentSnapshot) {
+      if (documentSnapshot.exists) {
+        Map<String, dynamic>? data =
+            documentSnapshot.data() as Map<String, dynamic>?;
+        // 현재 가격 가져오기
+        curPrice = data!['price'];
+        curBidderName = data['curBidder'];
+      }
     });
   }
 
