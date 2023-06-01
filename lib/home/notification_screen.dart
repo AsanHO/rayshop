@@ -46,13 +46,13 @@ class _NotificationScreenState extends State<NotificationScreen> {
           ),
         ),
       ),
-      body: const Padding(
-        padding: EdgeInsets.symmetric(vertical: 25, horizontal: 25),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 25),
         child: Column(
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
+              children: const [
                 NotiCategory(text: '전체'),
                 NotiCategory(text: '진행 예정'),
                 NotiCategory(text: '판매 경매'),
@@ -61,9 +61,9 @@ class _NotificationScreenState extends State<NotificationScreen> {
             ),
             Gaps.v32,
             Padding(
-              padding: EdgeInsets.all(15),
+              padding: const EdgeInsets.all(15),
               child: Column(
-                children: [
+                children: const [
                   NotiList(
                     text: '00:30:23 뒤에 "블루투스 이어폰" 경매가 시작됩니다.',
                     daybefore: '1일전',

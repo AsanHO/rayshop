@@ -1,17 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:intl/intl.dart';
+import 'package:rayshop/constants/gaps.dart';
 import 'package:rayshop/home/detail_screen.dart';
 import 'package:rayshop/home/notification_screen.dart';
 import 'package:rayshop/home/widgets/button.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeState();
+  _HomeScreenState createState() => _HomeScreenState();
 }
 
-class _HomeState extends State<HomeScreen> {
+class _HomeScreenState extends State<HomeScreen> {
+  late Stream<QuerySnapshot> _stream;
+
+  @override
+  void initState() {
+    super.initState();
+    _stream = FirebaseFirestore.instance.collection('products').snapshots();
+  }
+
   void _onBellPressed() {}
   @override
   Widget build(BuildContext context) {
@@ -62,10 +73,30 @@ class _HomeState extends State<HomeScreen> {
             padding: const EdgeInsets.all(20),
             child: Column(
               children: [
-                const SizedBox(
-                  height: 30,
+                Gaps.v10,
+                const Text(
+                  '가볍고 빠른 거래 레이숍',
+                  style: TextStyle(fontSize: 16),
                 ),
-                const Row(
+                const Text.rich(
+                  TextSpan(
+                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
+                    children: [
+                      TextSpan(
+                        text: '지금 ',
+                      ),
+                      TextSpan(
+                        text: '경매',
+                        style: TextStyle(color: Colors.deepOrange),
+                      ),
+                      TextSpan(
+                        text: '를 시작해보세요!',
+                      ),
+                    ],
+                  ),
+                ),
+                Gaps.v52,
+                Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Button(
@@ -86,10 +117,8 @@ class _HomeState extends State<HomeScreen> {
                     ),
                   ],
                 ),
-                const SizedBox(
-                  height: 25,
-                ),
-                const Row(
+                Gaps.v24,
+                Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Button(
@@ -110,10 +139,8 @@ class _HomeState extends State<HomeScreen> {
                     ),
                   ],
                 ),
-                const SizedBox(
-                  height: 35,
-                ),
-                const Row(
+                Gaps.v40,
+                Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Text(
@@ -123,42 +150,81 @@ class _HomeState extends State<HomeScreen> {
                     ),
                   ],
                 ),
-                const SizedBox(
-                  height: 30,
-                ),
-                GridView.builder(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3,
-                    crossAxisSpacing: 2,
-                    mainAxisSpacing: 2,
-                    childAspectRatio: 9 / 16,
-                  ),
-                  itemCount: 15, // 원하는 항목 수로 설정
-                  itemBuilder: (context, index) => Column(
-                    children: [
-                      Stack(
-                        children: [
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const DetailScreen()),
-                              );
-                            },
-                            child: Container(
-                              width: 100,
-                              height: 150,
-                              color: Colors.amber,
+                Gaps.v20,
+                StreamBuilder<QuerySnapshot>(
+                  stream: _stream,
+                  builder: (context, snapshot) {
+                    if (!snapshot.hasData) {
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
+
+                    final docs = snapshot.data!.docs;
+
+                    return GridView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        childAspectRatio: 0.75,
+                      ),
+                      itemCount: docs.length,
+                      itemBuilder: (context, index) {
+                        final data = docs[index].data() as Map;
+                        print(data);
+
+                        String productName = data["productName"];
+                        if (productName.length > 15) {
+                          productName = "${productName.substring(0, 12)}...";
+                        }
+
+                        return GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => DetailScreen(
+                                  data: data,
+                                  imageUrl: data['imageUrl'],
+                                ),
+                              ),
+                            );
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.all(16),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                AspectRatio(
+                                  aspectRatio: 1, // 원하는 비율로 조정
+                                  child: Image.network(
+                                    data["imageUrl"],
+                                    fit: BoxFit.contain,
+                                  ),
+                                ),
+                                Text(
+                                  "${NumberFormat('#,###').format(data['price'])}원",
+                                  style: const TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                                Text(
+                                  productName,
+                                  style: const TextStyle(
+                                    fontSize: 14,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
-                        ],
-                      ),
-                    ],
-                  ),
-                )
+                        );
+                      },
+                    );
+                  },
+                ),
               ],
             ),
           ),

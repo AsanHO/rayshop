@@ -47,9 +47,54 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<!--구글 로그인-->
+  <key>CFBundleURLTypes</key>
+	<array>
+	    <dict>
+	        <key>CFBundleTypeRole</key>
+	        <string>Editor</string>
+	        <key>CFBundleURLSchemes</key>
+	        <array>
+	        	<string>com.googleusercontent.apps.488668203531-8309mhpe92e5krdt8i2eo02lk4135g3k</string>
+	        </array>
+	    </dict>
+	</array>
 	<key>NSPhotoLibraryUsageDescription</key>
     <string>사진라이브러리 사용에 필요합니다.</string>
 	<key>NSCameraUsageDescription</key>
 	<string>카메라 사용에 필요합니다.</string>
+	<!--카카오-->
+	<key>KakaoCFBundleURLTypes</key>
+    <array>
+      <dict>
+      <key>CFBundleURLSchemes</key>
+      <array>
+        <!-- kakao login -->
+        <string>664d3082d3585c9e23f8c37092ac30d5</string>
+      </array>
+      </dict>
+    </array>
+	<!--네이버-->
+	<key>naverConsumerKey</key>
+	<string>HCLGtp5tKSGfh8HX2S4H</string>
+	<key>naverConsumerSecret</key>
+	<string>JoK4trgcLr</string>
+	<key>naverServiceAppName</key>
+	<string>rayshop</string>
+	<key>naverServiceAppUrlScheme</key>
+	<string>naver</string>
+	<key>NaverCFBundleURLTypes</key>
+	<array>
+    	<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>naver</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>naver</string>
+			</array>
+		</dict>
+    </array>
 </dict>
 </plist>

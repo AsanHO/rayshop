@@ -4,7 +4,6 @@ import 'package:rayshop/chats/chats_screen.dart';
 import 'package:rayshop/constants/gaps.dart';
 import 'package:rayshop/constants/sizes.dart';
 import 'package:rayshop/enroll/enroll_screen.dart';
-import 'package:rayshop/home/detail_screen.dart';
 import 'package:rayshop/home/home_screen.dart';
 import 'package:rayshop/main_navigation/widgets/nav_btn.dart';
 import 'package:rayshop/profile/profile_screen.dart';
@@ -66,10 +65,6 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
           Offstage(
             offstage: _selectedIndex != 4,
             child: const ProfileScreen(),
-          ),
-          Offstage(
-            offstage: _selectedIndex != 5,
-            child: const DetailScreen(),
           ),
         ],
       ),

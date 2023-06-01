@@ -1,15 +1,17 @@
 import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:rayshop/enroll/widgets/enrollComboBox.dart';
 import 'package:rayshop/enroll/widgets/enrollTextField.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:rayshop/main_navigation/main_navigation_screen.dart';
 
 class EnrollScreen extends StatefulWidget {
   const EnrollScreen({
     super.key,
   });
-
   @override
   State<EnrollScreen> createState() => _EnrollScreenState();
 }
@@ -25,11 +27,15 @@ class _EnrollScreenState extends State<EnrollScreen> {
     });
   }
 
-  final user = FirebaseAuth.instance.currentUser?.uid;
+  final _user = FirebaseAuth.instance.currentUser?.uid;
   String _name = "";
   String _price = "";
+  String _category = "";
+
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _priceController = TextEditingController();
+  final TextEditingController _categoryController = TextEditingController();
+
   @override
   void initState() {
     super.initState();
@@ -37,17 +43,57 @@ class _EnrollScreenState extends State<EnrollScreen> {
       setState(() {
         _name = _nameController.text;
         print(_name);
-        print(user);
-        //pw2컨트롤러 새로 만들기
+        print(_user);
+
+        // pw2컨트롤러 새로 만들기
       });
     });
     _priceController.addListener(() {
       setState(() {
         _price = _priceController.text;
         print(_price);
-        //pw2컨트롤러 새로 만들기
       });
     });
+    _categoryController.addListener(() {
+      setState(() {
+        _category = _categoryController.text;
+        print(_category);
+      });
+    });
+  }
+
+  void _enroll() async {
+    print(_name);
+    print(_user);
+    print(_price);
+    print(_category);
+    DateTime endTime = DateTime.now().add(const Duration(minutes: 10));
+    print(_image);
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
+    final storage = FirebaseStorage.instance;
+    final ref = storage.ref().child('images/${DateTime.now()}.jpg');
+    final uploadTask = ref.putFile(_image!);
+    TaskSnapshot storageTaskSnapshot =
+        await uploadTask.whenComplete(() => null);
+
+    // Storage에서 이미지 다운로드 URL 가져오기
+    String imageUrl = await storageTaskSnapshot.ref.getDownloadURL();
+    // Firestore에 데이터 저장하기
+    await firestore.collection('products').add({
+      "curBidder": "0명",
+      "productName": _name,
+      'uid': _user,
+      'price': int.parse(_price),
+      'category': _category,
+      'imageUrl': imageUrl,
+      'expirationTime': endTime,
+      'postTime': DateTime.now(),
+    });
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => const MainNavigationScreen(),
+      ),
+    );
   }
 
   @override
@@ -93,13 +139,10 @@ class _EnrollScreenState extends State<EnrollScreen> {
   String dateValue = '날짜';
   String hourValue = '시간';
   String personNumberValue = '제한없음';
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: null,
-      ),
+      appBar: AppBar(),
       body: Scaffold(
         body: SingleChildScrollView(
           child: Padding(
@@ -135,9 +178,10 @@ class _EnrollScreenState extends State<EnrollScreen> {
                   showCheckbox: false,
                   controller: _nameController,
                 ),
-                const EnrollTextField(
+                EnrollTextField(
                   title: '카테고리',
                   showCheckbox: false,
+                  controller: _categoryController,
                 ),
                 EnrollTextField(
                   title: '가격',
@@ -238,19 +282,22 @@ class _EnrollScreenState extends State<EnrollScreen> {
                           fontSize: 16,
                           fontWeight: FontWeight.w500),
                     ),
-                    Container(
-                      alignment: Alignment.center,
-                      width: 100,
-                      height: 50,
-                      decoration: BoxDecoration(
-                        color: Theme.of(context).primaryColor,
-                      ),
-                      child: const Text(
-                        "등록하기",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500),
+                    GestureDetector(
+                      onTap: _enroll,
+                      child: Container(
+                        alignment: Alignment.center,
+                        width: 100,
+                        height: 50,
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).primaryColor,
+                        ),
+                        child: const Text(
+                          "등록하기",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500),
+                        ),
                       ),
                     ),
                   ],
