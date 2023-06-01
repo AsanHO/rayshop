@@ -20,7 +20,10 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    _stream = FirebaseFirestore.instance.collection('products').snapshots();
+    _stream = FirebaseFirestore.instance
+        .collection('products')
+        .orderBy('expirationTime', descending: true)
+        .snapshots();
   }
 
   void _onBellPressed() {}
