@@ -14,6 +14,8 @@ class _SearchScreenState extends State<SearchScreen> {
   final TextEditingController _searchController = TextEditingController();
   List<String> recentSearches = [];
   List<String> searchResults = [];
+  bool showSearchResults =
+      false; // Flag to control visibility of search results
 
   @override
   void dispose() {
@@ -30,6 +32,7 @@ class _SearchScreenState extends State<SearchScreen> {
   void search(String query) async {
     setState(() {
       recentSearches.add(query);
+      showSearchResults = true; // Set flag to true when search is performed
     });
 
     final snapshot = await FirebaseFirestore.instance
@@ -152,11 +155,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                 fontSize: 18, fontWeight: FontWeight.bold),
                           ),
                           TextButton(
-                            onPressed: () {
-                              setState(() {
-                                recentSearches.clear();
-                              });
-                            },
+                            onPressed: () {},
                             child: TextButton(
                               onPressed: _clearRecentSearches,
                               child: Text(
