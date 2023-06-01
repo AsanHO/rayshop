@@ -214,10 +214,9 @@ class _DetailScreenState extends State<DetailScreen> {
                       Text(
                         widget.data["category"],
                         style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.black.withOpacity(0.4),
-                        ),
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black.withOpacity(0.4)),
                       ),
                     ],
                   ),
