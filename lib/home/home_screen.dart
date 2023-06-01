@@ -197,13 +197,20 @@ class _HomeScreenState extends State<HomeScreen> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                AspectRatio(
-                                  aspectRatio: 1, // 원하는 비율로 조정
-                                  child: Image.network(
-                                    data["imageUrl"],
-                                    fit: BoxFit.contain,
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(
+                                      10), // 원하는 둥글기 정도를 조절합니다.
+
+                                  child: AspectRatio(
+                                    aspectRatio: 1, // 원하는 비율로 조정
+                                    child: Image.network(
+                                      data["imageUrl"],
+                                      fit: BoxFit
+                                          .cover, // 이미지를 채우기 위해 fit: BoxFit.cover를 사용합니다.
+                                    ),
                                   ),
                                 ),
+                                const SizedBox(height: 8), // 텍스트 위에 여백 추가
                                 Text(
                                   "${NumberFormat('#,###').format(data['price'])}원",
                                   style: const TextStyle(
