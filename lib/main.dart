@@ -8,7 +8,7 @@ import 'firebase_options.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 void main() async {
-  print("5월18일 업데이트 입니다:) 로그인 이슈 해결");
+  print("5월28일 업데이트 입니다:) 홈 스크린, 디테일 스크린 UI및 기능 개선");
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,

@@ -179,10 +179,12 @@ class _HomeScreenState extends State<HomeScreen> {
                       itemBuilder: (context, index) {
                         final data = docs[index].data() as Map;
                         print(data);
-                        String pricestr = data['price'].toString();
-                        int price = int.parse(pricestr);
-                        final formatter = NumberFormat('#,###,###,###');
-                        final formattedPrice = formatter.format(price);
+
+                        String productName = data["productName"];
+                        if (productName.length > 15) {
+                          productName = "${productName.substring(0, 12)}...";
+                        }
+
                         return GestureDetector(
                           onTap: () {
                             Navigator.push(
@@ -200,19 +202,26 @@ class _HomeScreenState extends State<HomeScreen> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Image.network(data["imageUrl"]),
-                                Text(
-                                  "$formattedPrice원",
-                                  style: const TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w600),
+                                AspectRatio(
+                                  aspectRatio: 1, // 원하는 비율로 조정
+                                  child: Image.network(
+                                    data["imageUrl"],
+                                    fit: BoxFit.contain,
+                                  ),
                                 ),
                                 Text(
-                                  data["productName"],
+                                  "${NumberFormat('#,###').format(data['price'])}원",
+                                  style: const TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                                Text(
+                                  productName,
                                   style: const TextStyle(
                                     fontSize: 14,
                                   ),
-                                )
+                                ),
                               ],
                             ),
                           ),
