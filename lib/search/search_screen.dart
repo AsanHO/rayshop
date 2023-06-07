@@ -1,15 +1,53 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl/intl.dart';
+import 'package:rayshop/constants/gaps.dart';
+import 'package:rayshop/home/detail_screen.dart';
 import 'package:rayshop/search/widgets/popular_search_button.dart';
 import 'package:rayshop/search/widgets/recent_search.dart';
 
 class SearchScreen extends StatefulWidget {
-  const SearchScreen({super.key});
+  const SearchScreen({Key? key}) : super(key: key);
 
   @override
   State<SearchScreen> createState() => _SearchScreenState();
 }
 
 class _SearchScreenState extends State<SearchScreen> {
+  final TextEditingController _searchController = TextEditingController();
+  List<String> recentSearches = [];
+  List<DocumentSnapshot> searchResults = [];
+  bool showSearchResults =
+      false; // Flag to control visibility of search results
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  void _clearRecentSearches() {
+    setState(() {
+      recentSearches.clear();
+    });
+  }
+
+  void search(String query) async {
+    setState(() {
+      recentSearches.add(query);
+      showSearchResults = true; // Set flag to true when search is performed
+    });
+
+    final snapshot = await FirebaseFirestore.instance
+        .collection('products')
+        .where('productName', isEqualTo: query)
+        .get();
+
+    setState(() {
+      searchResults = snapshot.docs;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final double screenWidth = MediaQuery.of(context).size.width;
@@ -23,7 +61,9 @@ class _SearchScreenState extends State<SearchScreen> {
               Row(
                 children: [
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
                     icon: const Icon(Icons.arrow_back_ios_sharp),
                   ),
                   Container(
@@ -31,14 +71,20 @@ class _SearchScreenState extends State<SearchScreen> {
                     width: screenWidth * 0.75,
                     height: 40,
                     padding: const EdgeInsets.symmetric(horizontal: 6),
-                    child: const TextField(
-                      decoration: InputDecoration(
+                    child: TextField(
+                      controller: _searchController,
+                      onSubmitted: (value) {
+                        search(value);
+                      },
+                      decoration: const InputDecoration(
                         hintText: "검색하세요!",
                       ),
                     ),
                   ),
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      search(_searchController.text);
+                    },
                     icon: const Icon(Icons.search_sharp),
                     iconSize: 30,
                   )
@@ -71,12 +117,11 @@ class _SearchScreenState extends State<SearchScreen> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 20, horizontal: 10),
+                  const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: const [
+                      children: [
                         PopularSearchButton(
                           text: "에어팟",
                         ),
@@ -110,12 +155,16 @@ class _SearchScreenState extends State<SearchScreen> {
                             style: TextStyle(
                                 fontSize: 18, fontWeight: FontWeight.bold),
                           ),
-                          Text(
-                            "전체 삭제",
-                            style: TextStyle(
+                          TextButton(
+                            onPressed: _clearRecentSearches,
+                            child: Text(
+                              "전체 삭제",
+                              style: TextStyle(
                                 fontSize: 14,
                                 color: Colors.black.withOpacity(0.4),
-                                fontWeight: FontWeight.bold),
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
                           ),
                         ],
                       ),
@@ -123,13 +172,9 @@ class _SearchScreenState extends State<SearchScreen> {
                         padding: const EdgeInsets.symmetric(
                             vertical: 18, horizontal: 12),
                         child: Column(
-                          children: const [
-                            RecentSearch(text: "에어팟"),
-                            RecentSearch(text: "갤럭시"),
-                            RecentSearch(text: "아이폰"),
-                            RecentSearch(text: "지갑"),
-                            RecentSearch(text: "닌텐도"),
-                          ],
+                          children: recentSearches.map((text) {
+                            return RecentSearch(text: text);
+                          }).toList(),
                         ),
                       ),
                     ],
@@ -137,6 +182,81 @@ class _SearchScreenState extends State<SearchScreen> {
                 ],
               ),
             ),
+            if (showSearchResults) // Show this section if showSearchResults is true
+              Column(
+                children: [
+                  const SizedBox(height: 30),
+                  const Text(
+                    "검색 결과",
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  ListView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: searchResults.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      final data =
+                          searchResults[index].data() as Map<String, dynamic>;
+                      final productName = data['productName'] as String;
+                      final price = data['price'] as int;
+
+                      return GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => DetailScreen(
+                                data: data,
+                                dataId: searchResults[index].id,
+                                imageUrl: data['imageUrl'] as String,
+                              ),
+                            ),
+                          );
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 40, vertical: 20),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              SizedBox(
+                                width: 80, // 이미지의 가로 크기
+                                height: 80, // 이미지의 세로 크기
+                                child: Image.network(
+                                  data['imageUrl'] as String,
+                                  fit: BoxFit.cover, // 이미지가 컨테이너에 꽉 차도록 설정
+                                ),
+                              ),
+                              Column(
+                                children: [
+                                  Text(
+                                    productName,
+                                    style: const TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                  Gaps.v10,
+                                  Text(
+                                    "${NumberFormat('#,###').format(price)}원",
+                                    style: const TextStyle(
+                                      fontSize: 18,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ],
+              ),
           ],
         ),
       ),
