@@ -22,7 +22,7 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     _stream = FirebaseFirestore.instance
         .collection('products')
-        .orderBy('expirationTime', descending: true)
+        .orderBy('postTime', descending: true)
         .snapshots();
   }
 
