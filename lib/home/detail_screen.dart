@@ -401,11 +401,7 @@ class _DetailScreenState extends State<DetailScreen> {
                       padding: const EdgeInsets.symmetric(
                           vertical: 13, horizontal: 25),
                       child: Text(
-<<<<<<< HEAD
-                        isEnd ? '종료된 입찰' : '입찰하기',
-=======
                         isSeller ? '수정하기' : '입찰하기',
->>>>>>> master
                         style: const TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.w600,

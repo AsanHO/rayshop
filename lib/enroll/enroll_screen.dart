@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +19,7 @@ class EnrollScreen extends StatefulWidget {
 
 class _EnrollScreenState extends State<EnrollScreen> {
   File? _image;
-
+  final int maxLength = 28;
   Future _pickImage() async {
     final image = await ImagePicker().pickImage(source: ImageSource.gallery);
     if (image == null) return;
@@ -140,6 +141,7 @@ class _EnrollScreenState extends State<EnrollScreen> {
   String dateValue = '날짜';
   String hourValue = '시간';
   String personNumberValue = '제한없음';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -178,6 +180,7 @@ class _EnrollScreenState extends State<EnrollScreen> {
                   title: '제목',
                   showCheckbox: false,
                   controller: _nameController,
+
                   // 최대 길이 제한
                 ),
                 EnrollTextField(
