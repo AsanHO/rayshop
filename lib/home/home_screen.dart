@@ -99,7 +99,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 Gaps.v52,
-                const Row(
+                Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Button(
@@ -121,7 +121,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 ),
                 Gaps.v24,
-                const Row(
+                Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Button(
@@ -143,7 +143,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 ),
                 Gaps.v40,
-                const Row(
+                Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Text(
