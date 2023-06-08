@@ -76,7 +76,7 @@ class _DetailScreenState extends State<DetailScreen> {
 
     if (difference.isNegative) {
       setState(() {
-        timeRemaining = 'Expired';
+        timeRemaining = '입찰 마감';
         isEnd = true;
       });
       return;
@@ -117,6 +117,9 @@ class _DetailScreenState extends State<DetailScreen> {
   }
 
   void _onBid() async {
+    if (isSeller) {
+      return;
+    }
     // Firestore 인스턴스 생성
     DocumentReference documentRef =
         FirebaseFirestore.instance.collection('products').doc(widget.dataId);
@@ -278,7 +281,7 @@ class _DetailScreenState extends State<DetailScreen> {
                             Text(
                               timeRemaining,
                               style: const TextStyle(
-                                  fontSize: 38,
+                                  fontSize: 34,
                                   fontWeight: FontWeight.w600,
                                   color: Colors.orange),
                             ),

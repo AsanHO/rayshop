@@ -20,7 +20,10 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    _stream = FirebaseFirestore.instance.collection('products').snapshots();
+    _stream = FirebaseFirestore.instance
+        .collection('products')
+        .orderBy('postTime', descending: true)
+        .snapshots();
   }
 
   void _onBellPressed() {}
@@ -96,9 +99,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 Gaps.v52,
-                Row(
+                const Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: const [
+                  children: [
                     Button(
                       text: '인기상품',
                       icon: Icon(
@@ -118,9 +121,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 ),
                 Gaps.v24,
-                Row(
+                const Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: const [
+                  children: [
                     Button(
                       text: '찜',
                       icon: Icon(
@@ -140,9 +143,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 ),
                 Gaps.v40,
-                Row(
+                const Row(
                   mainAxisAlignment: MainAxisAlignment.start,
-                  children: const [
+                  children: [
                     Text(
                       '현재 인기 상승',
                       style:
@@ -200,11 +203,16 @@ class _HomeScreenState extends State<HomeScreen> {
                               children: [
                                 AspectRatio(
                                   aspectRatio: 1, // 원하는 비율로 조정
-                                  child: Image.network(
-                                    data["imageUrl"],
-                                    fit: BoxFit.contain,
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(
+                                        10.0), // 동그란 모서리를 원하는 크기로 조절할 수 있습니다.
+                                    child: Image.network(
+                                      data['imageUrl'] as String,
+                                      fit: BoxFit.cover,
+                                    ),
                                   ),
                                 ),
+                                Gaps.v4,
                                 Text(
                                   "${NumberFormat('#,###').format(data['price'])}원",
                                   style: const TextStyle(
