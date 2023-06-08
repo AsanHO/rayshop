@@ -117,12 +117,11 @@ class _SearchScreenState extends State<SearchScreen> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 20, horizontal: 10),
+                  const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: const [
+                      children: [
                         PopularSearchButton(
                           text: "에어팟",
                         ),
@@ -220,37 +219,51 @@ class _SearchScreenState extends State<SearchScreen> {
                         },
                         child: Container(
                           padding: const EdgeInsets.symmetric(
-                              horizontal: 40, vertical: 20),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              SizedBox(
-                                width: 80, // 이미지의 가로 크기
-                                height: 80, // 이미지의 세로 크기
-                                child: Image.network(
-                                  data['imageUrl'] as String,
-                                  fit: BoxFit.cover, // 이미지가 컨테이너에 꽉 차도록 설정
-                                ),
-                              ),
-                              Column(
+                              horizontal: 15, vertical: 20),
+                          child: Container(
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: Colors.grey.withOpacity(0.15)),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 15, horizontal: 15),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
                                 children: [
-                                  Text(
-                                    productName,
-                                    style: const TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.w600,
+                                  SizedBox(
+                                    width: 100, // 이미지의 가로 크기
+                                    height: 100, // 이미지의 세로 크기
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(
+                                          10.0), // 동그란 모서리를 원하는 크기로 조절할 수 있습니다.
+                                      child: Image.network(
+                                        data['imageUrl'] as String,
+                                        fit: BoxFit.cover,
+                                      ),
                                     ),
                                   ),
-                                  Gaps.v10,
-                                  Text(
-                                    "${NumberFormat('#,###').format(price)}원",
-                                    style: const TextStyle(
-                                      fontSize: 18,
-                                    ),
+                                  Column(
+                                    children: [
+                                      Text(
+                                        productName,
+                                        style: const TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                      Gaps.v10,
+                                      Text(
+                                        "${NumberFormat('#,###').format(price)}원",
+                                        style: const TextStyle(
+                                          fontSize: 18,
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ],
                               ),
-                            ],
+                            ),
                           ),
                         ),
                       );
