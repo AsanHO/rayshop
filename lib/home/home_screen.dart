@@ -157,9 +157,15 @@ class _HomeScreenState extends State<HomeScreen> {
                 StreamBuilder<QuerySnapshot>(
                   stream: _stream,
                   builder: (context, snapshot) {
-                    if (!snapshot.hasData) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
                       return const Center(
                         child: CircularProgressIndicator(),
+                      );
+                    }
+
+                    if (!snapshot.hasData) {
+                      return const Center(
+                        child: Text('데이터가 없습니다.'),
                       );
                     }
 
@@ -190,7 +196,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               MaterialPageRoute(
                                 builder: (context) => DetailScreen(
                                   data: data,
-                                  dataId: docs[index].id,
+                                  dataId: documentId,
                                   imageUrl: data['imageUrl'],
                                 ),
                               ),

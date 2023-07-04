@@ -55,11 +55,9 @@ class _MainAuthScreenState extends State<MainAuthScreen> {
 
     //네이버
     void signInWithNaver() async {
-      print("들왔냐");
       NaverLoginResult res = await FlutterNaverLogin.logIn();
       final NaverLoginResult result = await FlutterNaverLogin.logIn();
       NaverAccessToken req = await FlutterNaverLogin.currentAccessToken;
-
       if (result.status == NaverLoginStatus.loggedIn) {
         print('accessToken = ${result.accessToken}');
         print('id = ${result.account.id}');
@@ -75,22 +73,20 @@ class _MainAuthScreenState extends State<MainAuthScreen> {
       print("카카오 로그인 들어옴");
       try {
         bool isInstalled = await isKakaoTalkInstalled();
-
         OAuthToken token = isInstalled
             ? await UserApi.instance.loginWithKakaoTalk()
             : await UserApi.instance.loginWithKakaoAccount();
-
         final url = Uri.https('kapi.kakao.com', '/v2/user/me');
-
         final response = await http.get(
           url,
           headers: {
             HttpHeaders.authorizationHeader: 'Bearer ${token.accessToken}'
           },
         );
-
         final profileInfo = json.decode(response.body);
+
         print(profileInfo.toString());
+        print("카카오로그인완료");
         Navigator.of(context).push(MaterialPageRoute(
           builder: (context) => const MainNavigationScreen(),
         ));
@@ -111,9 +107,12 @@ class _MainAuthScreenState extends State<MainAuthScreen> {
         accessToken: googleAuth?.accessToken,
         idToken: googleAuth?.idToken,
       );
-      Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) => const MainNavigationScreen(),
-      ));
+
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => const MainNavigationScreen(),
+        ),
+      );
       // 로그인 후 UserCredential 반환
       return await FirebaseAuth.instance.signInWithCredential(credential);
     }
