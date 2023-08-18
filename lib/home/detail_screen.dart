@@ -11,7 +11,6 @@ class DetailScreen extends StatefulWidget {
   final data;
   final imageUrl;
   final dataId;
-
   const DetailScreen({
     super.key,
     required this.data,
