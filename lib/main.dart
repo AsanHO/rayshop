@@ -1,14 +1,14 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:rayshop/auth/auth_fire.dart';
 import 'package:rayshop/auth/main_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:rayshop/main_navigation/main_navigation_screen.dart';
 import 'firebase_options.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 void main() async {
-  print("8월18일 업데이트 입니다:) 입찰 애니메이션 추가");
+  print("8월19일 업데이트 입니다:) 임시 스플래시 화면 추가");
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -41,6 +41,22 @@ class RayShopApp extends StatefulWidget {
 
 class _RayShopAppState extends State<RayShopApp> {
   User? user = AuthManage().getUser();
+  bool _showSplash = true; // 스플래시 화면 표시 여부
+
+  @override
+  void initState() {
+    super.initState();
+    _loadSplash();
+  }
+
+  // 스플래시 화면 표시 후 일정 시간 뒤에 메인 화면으로 전환
+  Future<void> _loadSplash() async {
+    await Future.delayed(const Duration(seconds: 3)); // 스플래시 화면 표시 시간 설정
+    setState(() {
+      _showSplash = false; // 스플래시 화면 표시 종료
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -62,8 +78,24 @@ class _RayShopAppState extends State<RayShopApp> {
         colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.blue)
             .copyWith(error: const Color(0xffff6427)),
       ),
-      home:
-          user != null ? const MainNavigationScreen() : const MainAuthScreen(),
+      home: _showSplash
+          ? const SplashScreen()
+          : (user != null
+              ? const MainNavigationScreen()
+              : const MainAuthScreen()),
+    );
+  }
+}
+
+class SplashScreen extends StatelessWidget {
+  const SplashScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: Image.asset('assets/character.png'), // 스플래시 이미지 표시
+      ),
     );
   }
 }
