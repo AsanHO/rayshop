@@ -8,7 +8,7 @@ import 'firebase_options.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 void main() async {
-  print("5월28일 업데이트 입니다:) 홈 스크린, 디테일 스크린 UI및 기능 개선");
+  print("8월18일 업데이트 입니다:) 입찰 애니메이션 추가");
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
