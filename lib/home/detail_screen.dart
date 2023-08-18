@@ -11,6 +11,7 @@ class DetailScreen extends StatefulWidget {
   final data;
   final imageUrl;
   final dataId;
+
   const DetailScreen({
     super.key,
     required this.data,
@@ -22,7 +23,10 @@ class DetailScreen extends StatefulWidget {
   State<DetailScreen> createState() => _DetailScreenState();
 }
 
-class _DetailScreenState extends State<DetailScreen> {
+class _DetailScreenState extends State<DetailScreen>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController controller;
+  late Animation<double> opacityAnimation;
   String timeRemaining = '';
   Timer? timer;
   late String uid;
@@ -46,6 +50,10 @@ class _DetailScreenState extends State<DetailScreen> {
     subscribeToPriceUpdates();
     startTimer();
     fetchPostTime();
+    controller =
+        AnimationController(vsync: this, duration: const Duration(seconds: 1));
+    opacityAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(controller);
+    controller.forward();
   }
 
   void fetchPostTime() async {
@@ -59,6 +67,7 @@ class _DetailScreenState extends State<DetailScreen> {
   void dispose() {
     timer?.cancel();
     super.dispose();
+    controller.dispose();
   }
 
   void startTimer() {
@@ -282,13 +291,21 @@ class _DetailScreenState extends State<DetailScreen> {
                                   fontWeight: FontWeight.w600,
                                   color: Colors.orange),
                             ),
-                            Text(
-                              curBidderName,
-                              style: const TextStyle(
-                                  fontSize: 28,
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.blue),
-                            ),
+                            AnimatedBuilder(
+                              animation: opacityAnimation,
+                              builder: (BuildContext context, Widget? child) {
+                                return Opacity(
+                                  opacity: opacityAnimation.value,
+                                  child: Text(
+                                    curBidderName,
+                                    style: const TextStyle(
+                                        fontSize: 28,
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.blue),
+                                  ),
+                                );
+                              },
+                            )
                           ],
                         )
                       ],

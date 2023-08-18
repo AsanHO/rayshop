@@ -1,15 +1,52 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:rayshop/search/widgets/popular_search_button.dart';
 import 'package:rayshop/search/widgets/recent_search.dart';
 
 class SearchScreen extends StatefulWidget {
-  const SearchScreen({super.key});
+  const SearchScreen({Key? key}) : super(key: key);
 
   @override
   State<SearchScreen> createState() => _SearchScreenState();
 }
 
 class _SearchScreenState extends State<SearchScreen> {
+  final TextEditingController _searchController = TextEditingController();
+  List<String> recentSearches = [];
+  List<String> searchResults = [];
+  bool showSearchResults =
+      false; // Flag to control visibility of search results
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  void _clearRecentSearches() {
+    setState(() {
+      recentSearches.clear();
+    });
+  }
+
+  void search(String query) async {
+    setState(() {
+      recentSearches.add(query);
+      showSearchResults = true; // Set flag to true when search is performed
+    });
+
+    final snapshot = await FirebaseFirestore.instance
+        .collection('products')
+        .where('productName', isEqualTo: query)
+        .get();
+
+    setState(() {
+      searchResults = snapshot.docs
+          .map((doc) => doc.data()['productName'] as String)
+          .toList();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final double screenWidth = MediaQuery.of(context).size.width;
@@ -23,7 +60,9 @@ class _SearchScreenState extends State<SearchScreen> {
               Row(
                 children: [
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
                     icon: const Icon(Icons.arrow_back_ios_sharp),
                   ),
                   Container(
@@ -31,14 +70,20 @@ class _SearchScreenState extends State<SearchScreen> {
                     width: screenWidth * 0.75,
                     height: 40,
                     padding: const EdgeInsets.symmetric(horizontal: 6),
-                    child: const TextField(
-                      decoration: InputDecoration(
+                    child: TextField(
+                      controller: _searchController,
+                      onSubmitted: (value) {
+                        search(value);
+                      },
+                      decoration: const InputDecoration(
                         hintText: "검색하세요!",
                       ),
                     ),
                   ),
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      search(_searchController.text);
+                    },
                     icon: const Icon(Icons.search_sharp),
                     iconSize: 30,
                   )
@@ -71,11 +116,11 @@ class _SearchScreenState extends State<SearchScreen> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  Padding(
+                  const Padding(
                     padding: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: const [
+                      children: [
                         PopularSearchButton(
                           text: "에어팟",
                         ),
@@ -109,32 +154,55 @@ class _SearchScreenState extends State<SearchScreen> {
                             style: TextStyle(
                                 fontSize: 18, fontWeight: FontWeight.bold),
                           ),
-                          Text(
-                            "전체 삭제",
-                            style: TextStyle(
-                                fontSize: 14,
-                                color: Colors.black.withOpacity(0.4),
-                                fontWeight: FontWeight.bold),
+                          TextButton(
+                            onPressed: () {},
+                            child: TextButton(
+                              onPressed: _clearRecentSearches,
+                              child: Text(
+                                "전체 삭제",
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: Colors.black.withOpacity(0.4),
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
                           ),
                         ],
                       ),
                       Padding(
-                        padding:
-                            EdgeInsets.symmetric(vertical: 18, horizontal: 12),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 18, horizontal: 12),
                         child: Column(
-                          children: const [
-                            RecentSearch(text: "에어팟"),
-                            RecentSearch(text: "갤럭시"),
-                            RecentSearch(text: "아이폰"),
-                            RecentSearch(text: "지갑"),
-                            RecentSearch(text: "닌텐도"),
-                          ],
+                          children: recentSearches.map((text) {
+                            return RecentSearch(text: text);
+                          }).toList(),
                         ),
                       ),
                     ],
                   ),
                 ],
               ),
+            ),
+            const SizedBox(height: 30),
+            const Text(
+              "검색 결과",
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 10),
+            ListView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: searchResults.length,
+              itemBuilder: (BuildContext context, int index) {
+                return ListTile(
+                  title: Text(searchResults[index]),
+                  // Add other relevant widgets for displaying search results
+                );
+              },
             ),
           ],
         ),

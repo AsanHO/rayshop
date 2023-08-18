@@ -96,7 +96,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 Gaps.v52,
-                Row(
+                const Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Button(
@@ -118,7 +118,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 ),
                 Gaps.v24,
-                Row(
+                const Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Button(
@@ -140,7 +140,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 ),
                 Gaps.v40,
-                Row(
+                const Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Text(
@@ -173,7 +173,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       itemCount: docs.length,
                       itemBuilder: (context, index) {
                         final data = docs[index].data() as Map;
-                        print(data);
+
                         String documentId = docs[index].id; // 문서 ID 가져오기
                         String productName = data["productName"];
                         if (productName.length > 15) {
