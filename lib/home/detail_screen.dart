@@ -132,6 +132,8 @@ class _DetailScreenState extends State<DetailScreen>
     DocumentSnapshot docSnapshot = await documentRef.get();
     // 콜렉션("product")에서 uid 필드가 'gZkIpQgPTUV6iVewNZzg9tdqkOF2'인 문서를 가져옴
     // 검색된 문서가 있는지 확인
+    controller.reset();
+    controller.forward();
     if (docSnapshot.exists) {
       // 현재 가격 가져오기
       // 가격 증가
