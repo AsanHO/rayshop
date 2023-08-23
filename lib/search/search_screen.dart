@@ -29,6 +29,12 @@ class _SearchScreenState extends State<SearchScreen> {
     });
   }
 
+  void _clearRecentSearch() {
+    setState(() {
+      recentSearches.removeLast();
+    });
+  }
+
   void search(String query) async {
     setState(() {
       recentSearches.add(query);
@@ -81,12 +87,10 @@ class _SearchScreenState extends State<SearchScreen> {
                     ),
                   ),
                   IconButton(
-                    onPressed: () {
-                      search(_searchController.text);
-                    },
+                    onPressed: () {},
                     icon: const Icon(Icons.search_sharp),
                     iconSize: 30,
-                  )
+                  ),
                 ],
               ),
               Image.asset(
@@ -175,7 +179,15 @@ class _SearchScreenState extends State<SearchScreen> {
                             vertical: 18, horizontal: 12),
                         child: Column(
                           children: recentSearches.map((text) {
-                            return RecentSearch(text: text);
+                            return RecentSearch(
+                              text: text,
+                              recentSearches: recentSearches,
+                              onDelete: () {
+                                setState(() {
+                                  recentSearches.remove(text);
+                                });
+                              },
+                            );
                           }).toList(),
                         ),
                       ),
@@ -210,3 +222,5 @@ class _SearchScreenState extends State<SearchScreen> {
     );
   }
 }
+
+class SearchResultPage {}

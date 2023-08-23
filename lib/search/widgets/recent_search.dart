@@ -2,10 +2,15 @@ import 'package:flutter/material.dart';
 
 class RecentSearch extends StatelessWidget {
   final String text;
+  final List<String> recentSearches;
+  final VoidCallback onDelete;
+
   const RecentSearch({
-    super.key,
+    Key? key,
     required this.text,
-  });
+    required this.recentSearches,
+    required this.onDelete,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +31,9 @@ class RecentSearch extends StatelessWidget {
               ),
             ),
             IconButton(
-              onPressed: () {},
+              onPressed: () {
+                onDelete(); // 항목 삭제 콜백 호출
+              },
               icon: const Icon(Icons.close_sharp),
               color: Colors.black.withOpacity(0.4),
             ),
