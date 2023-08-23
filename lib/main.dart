@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:rayshop/auth/auth_fire.dart';
-import 'package:rayshop/auth/main_auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:rayshop/main_navigation/main_navigation_screen.dart';
+import 'auth/main_auth.dart';
 import 'firebase_options.dart';
+import 'package:video_player/video_player.dart';
+
+import 'main_navigation/main_navigation_screen.dart';
 
 void main() async {
   print("8월19일 업데이트 입니다:) 임시 스플래시 화면 추가");
@@ -60,41 +62,86 @@ class _RayShopAppState extends State<RayShopApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'RayShop',
-      theme: ThemeData(
-        scaffoldBackgroundColor: Colors.white,
-        cardColor: const Color(0xffffea27),
-        primaryColor: const Color(0xff247dff),
-        appBarTheme: const AppBarTheme(
-          backgroundColor: Colors.white,
-          foregroundColor: Colors.black,
-          elevation: 0,
-          titleTextStyle: TextStyle(
-            color: Colors.black,
-            fontSize: 18,
-            fontWeight: FontWeight.w600,
+        title: 'RayShop',
+        theme: ThemeData(
+          scaffoldBackgroundColor: Colors.white,
+          cardColor: const Color(0xffffea27),
+          primaryColor: const Color(0xff247dff),
+          appBarTheme: const AppBarTheme(
+            backgroundColor: Colors.white,
+            foregroundColor: Colors.black,
+            elevation: 0,
+            titleTextStyle: TextStyle(
+              color: Colors.black,
+              fontSize: 18,
+              fontWeight: FontWeight.w600,
+            ),
           ),
+          colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.blue)
+              .copyWith(error: const Color(0xffff6427)),
         ),
-        colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.blue)
-            .copyWith(error: const Color(0xffff6427)),
-      ),
-      home: _showSplash
-          ? const SplashScreen()
-          : (user != null
-              ? const MainNavigationScreen()
-              : const MainAuthScreen()),
-    );
+        home: const SplashScreen());
   }
 }
 
-class SplashScreen extends StatelessWidget {
-  const SplashScreen({super.key});
+class SplashScreen extends StatefulWidget {
+  const SplashScreen({Key? key}) : super(key: key);
+
+  @override
+  _SplashScreenState createState() => _SplashScreenState();
+}
+
+class _SplashScreenState extends State<SplashScreen> {
+  late VideoPlayerController _controller;
+  User? user = AuthManage().getUser();
+  @override
+  void initState() {
+    super.initState();
+    _controller = VideoPlayerController.asset('assets/rayshopsplash.mp4')
+      ..initialize().then((_) {
+        setState(() {});
+        _controller.play();
+
+        _controller.addListener(() {
+          if (_controller.value.position >= _controller.value.duration) {
+            _controller.pause();
+
+            // 비디오 재생이 완료되면 user가 null인 경우 MainAuthScreen으로 이동
+            if (user != null) {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => const MainAuthScreen()),
+              );
+            }
+            // user가 null이 아니라면 MainNavigationScreen으로 이동
+            else {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const MainNavigationScreen()),
+              );
+            }
+          }
+        });
+      });
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose(); // 비디오 컨트롤러 해제
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Image.asset('assets/character.png'), // 스플래시 이미지 표시
+        child: _controller.value.isInitialized
+            ? AspectRatio(
+                aspectRatio: _controller.value.aspectRatio,
+                child: VideoPlayer(_controller),
+              )
+            : const CircularProgressIndicator(),
       ),
     );
   }
