@@ -10,7 +10,7 @@ import 'package:video_player/video_player.dart';
 import 'main_navigation/main_navigation_screen.dart';
 
 void main() async {
-  print("8월19일 업데이트 입니다:) 임시 스플래시 화면 추가");
+  print("8월23일 업데이트 입니다:) 스플래시 화면 추가");
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -101,7 +101,6 @@ class _SplashScreenState extends State<SplashScreen> {
       ..initialize().then((_) {
         setState(() {});
         _controller.play();
-
         _controller.addListener(() {
           if (_controller.value.position >= _controller.value.duration) {
             _controller.pause();
