@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl/intl.dart';
+import 'package:rayshop/constants/gaps.dart';
+import 'package:rayshop/home/detail_screen.dart';
 import 'package:rayshop/search/widgets/popular_search_button.dart';
 import 'package:rayshop/search/widgets/recent_search.dart';
 
@@ -13,7 +16,7 @@ class SearchScreen extends StatefulWidget {
 class _SearchScreenState extends State<SearchScreen> {
   final TextEditingController _searchController = TextEditingController();
   List<String> recentSearches = [];
-  List<String> searchResults = [];
+  List<DocumentSnapshot> searchResults = []; // Update this type
   bool showSearchResults =
       false; // Flag to control visibility of search results
 
@@ -29,12 +32,6 @@ class _SearchScreenState extends State<SearchScreen> {
     });
   }
 
-  void _clearRecentSearch() {
-    setState(() {
-      recentSearches.removeLast();
-    });
-  }
-
   void search(String query) async {
     setState(() {
       recentSearches.add(query);
@@ -47,9 +44,7 @@ class _SearchScreenState extends State<SearchScreen> {
         .get();
 
     setState(() {
-      searchResults = snapshot.docs
-          .map((doc) => doc.data()['productName'] as String)
-          .toList();
+      searchResults = snapshot.docs;
     });
   }
 
@@ -87,7 +82,9 @@ class _SearchScreenState extends State<SearchScreen> {
                     ),
                   ),
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      search(_searchController.text);
+                    },
                     icon: const Icon(Icons.search_sharp),
                     iconSize: 30,
                   ),
@@ -196,31 +193,96 @@ class _SearchScreenState extends State<SearchScreen> {
                 ],
               ),
             ),
-            const SizedBox(height: 30),
-            const Text(
-              "검색 결과",
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
+            if (showSearchResults) // Show this section if showSearchResults is true
+              Column(
+                children: [
+                  const SizedBox(height: 30),
+                  const Text(
+                    "검색 결과",
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  ListView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: searchResults.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      final data =
+                          searchResults[index].data() as Map<String, dynamic>;
+                      final productName = data['productName'] as String;
+                      final price = data['price'] as int;
+                      return GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => DetailScreen(
+                                data: data,
+                                dataId: searchResults[index].id,
+                                imageUrl: data['imageUrl'] as String,
+                              ),
+                            ),
+                          );
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 15, vertical: 20),
+                          child: Container(
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: Colors.grey.withOpacity(0.2)),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 15, horizontal: 15),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: [
+                                  SizedBox(
+                                    width: 100, // 이미지의 가로 크기
+                                    height: 100, // 이미지의 세로 크기
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                      child: Image.network(
+                                        data['imageUrl'] as String,
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                  ),
+                                  Column(
+                                    children: [
+                                      Text(
+                                        productName,
+                                        style: const TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                      Gaps.v10,
+                                      Text(
+                                        "${NumberFormat('#,###').format(price)}원",
+                                        style: const TextStyle(
+                                          fontSize: 18,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ],
               ),
-            ),
-            const SizedBox(height: 10),
-            ListView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: searchResults.length,
-              itemBuilder: (BuildContext context, int index) {
-                return ListTile(
-                  title: Text(searchResults[index]),
-                  // Add other relevant widgets for displaying search results
-                );
-              },
-            ),
           ],
         ),
       ),
     );
   }
 }
-
-class SearchResultPage {}
