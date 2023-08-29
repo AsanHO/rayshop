@@ -18,6 +18,7 @@ class EnrollScreen extends StatefulWidget {
 
 class _EnrollScreenState extends State<EnrollScreen> {
   File? _image;
+  final int maxLength = 28;
   Future _pickImage() async {
     final image = await ImagePicker().pickImage(source: ImageSource.gallery);
     if (image == null) return;
@@ -31,10 +32,12 @@ class _EnrollScreenState extends State<EnrollScreen> {
   String _name = "";
   String _price = "";
   String _category = "";
+  String _describe = "";
 
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _priceController = TextEditingController();
   final TextEditingController _categoryController = TextEditingController();
+  final TextEditingController _describeController = TextEditingController();
 
   @override
   void initState() {
@@ -42,8 +45,6 @@ class _EnrollScreenState extends State<EnrollScreen> {
     _nameController.addListener(() {
       setState(() {
         _name = _nameController.text;
-        print(_name);
-        print(_user);
 
         // pw2컨트롤러 새로 만들기
       });
@@ -51,24 +52,22 @@ class _EnrollScreenState extends State<EnrollScreen> {
     _priceController.addListener(() {
       setState(() {
         _price = _priceController.text;
-        print(_price);
       });
     });
     _categoryController.addListener(() {
       setState(() {
         _category = _categoryController.text;
-        print(_category);
+      });
+    });
+    _describeController.addListener(() {
+      setState(() {
+        _describe = _describeController.text;
       });
     });
   }
 
   void _enroll() async {
-    print(_name);
-    print(_user);
-    print(_price);
-    print(_category);
     DateTime endTime = DateTime.now().add(const Duration(minutes: 10));
-    print(_image);
     FirebaseFirestore firestore = FirebaseFirestore.instance;
     final storage = FirebaseStorage.instance;
     final ref = storage.ref().child('images/${DateTime.now()}.jpg');
@@ -88,6 +87,7 @@ class _EnrollScreenState extends State<EnrollScreen> {
       'imageUrl': imageUrl,
       'expirationTime': endTime,
       'postTime': DateTime.now(),
+      'describe': _describe
     });
     Navigator.of(context).push(
       MaterialPageRoute(
@@ -139,6 +139,7 @@ class _EnrollScreenState extends State<EnrollScreen> {
   String dateValue = '날짜';
   String hourValue = '시간';
   String personNumberValue = '제한없음';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -146,7 +147,7 @@ class _EnrollScreenState extends State<EnrollScreen> {
       body: Scaffold(
         body: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 25),
+            padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 25),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -177,6 +178,8 @@ class _EnrollScreenState extends State<EnrollScreen> {
                   title: '제목',
                   showCheckbox: false,
                   controller: _nameController,
+
+                  // 최대 길이 제한
                 ),
                 EnrollTextField(
                   title: '카테고리',
@@ -187,6 +190,12 @@ class _EnrollScreenState extends State<EnrollScreen> {
                   title: '가격',
                   showCheckbox: true,
                   controller: _priceController,
+                ),
+                EnrollTextField(
+                  title: '상품 상세 설명', // 이 부분은 EnrollTextField의 title로 사용
+                  showCheckbox: false, // 아마도 필요하지 않을 것으로 보입니다
+                  controller:
+                      _describeController, // 상세 설명을 위한 TextEditingController 사용
                 ),
                 const SizedBox(
                   height: 10,
@@ -273,15 +282,8 @@ class _EnrollScreenState extends State<EnrollScreen> {
                   height: 10,
                 ),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    const Text(
-                      "상품 상세 설명 / ",
-                      style: TextStyle(
-                          color: Colors.grey,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500),
-                    ),
                     GestureDetector(
                       onTap: _enroll,
                       child: Container(

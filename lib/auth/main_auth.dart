@@ -90,7 +90,8 @@ class _MainAuthScreenState extends State<MainAuthScreen> {
         );
 
         final profileInfo = json.decode(response.body);
-        print(profileInfo.toString());
+        print("$profileInfo카카오톡 로그인 정보를 알려줘");
+
         Navigator.of(context).push(MaterialPageRoute(
           builder: (context) => const MainNavigationScreen(),
         ));

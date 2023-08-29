@@ -22,7 +22,10 @@ class DetailScreen extends StatefulWidget {
   State<DetailScreen> createState() => _DetailScreenState();
 }
 
-class _DetailScreenState extends State<DetailScreen> {
+class _DetailScreenState extends State<DetailScreen>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController controller;
+  late Animation<double> opacityAnimation;
   String timeRemaining = '';
   Timer? timer;
   late String uid;
@@ -33,6 +36,7 @@ class _DetailScreenState extends State<DetailScreen> {
   late int curPrice;
   bool isEnd = false;
   late String postTime;
+  late String describe;
 
   @override
   void initState() {
@@ -46,6 +50,24 @@ class _DetailScreenState extends State<DetailScreen> {
     subscribeToPriceUpdates();
     startTimer();
     fetchPostTime();
+    fetchDescribe();
+    controller =
+        AnimationController(vsync: this, duration: const Duration(seconds: 1));
+    opacityAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(controller);
+    controller.forward();
+  }
+
+  void fetchDescribe() async {
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
+    DocumentReference documentRef =
+        firestore.collection('products').doc(widget.dataId);
+
+    DocumentSnapshot docSnapshot = await documentRef.get();
+    if (docSnapshot.exists) {
+      setState(() {
+        describe = docSnapshot['describe']; // 'describe' 정보 업데이트
+      });
+    }
   }
 
   void fetchPostTime() async {
@@ -59,13 +81,12 @@ class _DetailScreenState extends State<DetailScreen> {
   void dispose() {
     timer?.cancel();
     super.dispose();
+    controller.dispose();
   }
 
   void startTimer() {
     timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       calculateTimeRemaining();
-      print(uid);
-      print(curUid);
     });
   }
 
@@ -76,7 +97,11 @@ class _DetailScreenState extends State<DetailScreen> {
 
     if (difference.isNegative) {
       setState(() {
+<<<<<<< HEAD
         timeRemaining = '입찰 마감';
+=======
+        timeRemaining = '만료';
+>>>>>>> origin/mj
         isEnd = true;
       });
       return;
@@ -126,6 +151,11 @@ class _DetailScreenState extends State<DetailScreen> {
     DocumentSnapshot docSnapshot = await documentRef.get();
     // 콜렉션("product")에서 uid 필드가 'gZkIpQgPTUV6iVewNZzg9tdqkOF2'인 문서를 가져옴
     // 검색된 문서가 있는지 확인
+    controller.reset();
+    controller.forward();
+    await documentRef.update({
+      'describe': describe, // 'describe' 필드에 상품 설명 추가
+    });
     if (docSnapshot.exists) {
       // 현재 가격 가져오기
       // 가격 증가
@@ -173,7 +203,8 @@ class _DetailScreenState extends State<DetailScreen> {
   Widget build(BuildContext context) {
     String elapsedTime = postTime != null ? getElapsedTime() : "";
     String pricestr = widget.data['price'].toString();
-    int price = int.parse(pricestr);
+    int price = int.parse(pricestr); // 기본 값으로 상수로 선언
+    String describe = widget.data['describe'];
     return Scaffold(
       appBar: AppBar(
         actions: [
@@ -285,13 +316,21 @@ class _DetailScreenState extends State<DetailScreen> {
                                   fontWeight: FontWeight.w600,
                                   color: Colors.orange),
                             ),
-                            Text(
-                              curBidderName,
-                              style: const TextStyle(
-                                  fontSize: 28,
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.blue),
-                            ),
+                            AnimatedBuilder(
+                              animation: opacityAnimation,
+                              builder: (BuildContext context, Widget? child) {
+                                return Opacity(
+                                  opacity: opacityAnimation.value,
+                                  child: Text(
+                                    curBidderName,
+                                    style: const TextStyle(
+                                        fontSize: 28,
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.blue),
+                                  ),
+                                );
+                              },
+                            )
                           ],
                         )
                       ],
@@ -312,9 +351,9 @@ class _DetailScreenState extends State<DetailScreen> {
                         ],
                       ),
                       Gaps.v20,
-                      const Text(
-                        '에어팟 프로\n\n(노이즈 캔슬링, 사운드, 마이크, 터치 등)\n\n가격은 최소 10만원부터 생각 중입니다.\n\n기타 문의는 연락주시면 답변 드리겠습니다.',
-                        style: TextStyle(
+                      Text(
+                        describe,
+                        style: const TextStyle(
                             fontSize: 16, fontWeight: FontWeight.w600),
                       ),
                       Gaps.v40,

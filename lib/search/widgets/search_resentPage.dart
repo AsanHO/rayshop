@@ -7,23 +7,20 @@ import 'package:rayshop/home/notification_screen.dart';
 import 'package:rayshop/home/widgets/button.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+class Search_resentPage extends StatefulWidget {
+  const Search_resentPage({super.key});
 
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  _Searchresult createState() => _Searchresult();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _Searchresult extends State<Search_resentPage> {
   late Stream<QuerySnapshot> _stream;
 
   @override
   void initState() {
     super.initState();
-    _stream = FirebaseFirestore.instance
-        .collection('products')
-        .orderBy('postTime', descending: true)
-        .snapshots();
+    _stream = FirebaseFirestore.instance.collection('products').snapshots();
   }
 
   void _onBellPressed() {}
@@ -201,20 +198,6 @@ class _HomeScreenState extends State<HomeScreen> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-<<<<<<< HEAD
-                                AspectRatio(
-                                  aspectRatio: 1, // 원하는 비율로 조정
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(
-                                        10.0), // 동그란 모서리를 원하는 크기로 조절할 수 있습니다.
-                                    child: Image.network(
-                                      data['imageUrl'] as String,
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                ),
-                                Gaps.v4,
-=======
                                 ClipRRect(
                                   borderRadius: BorderRadius.circular(
                                       10), // 원하는 둥글기 정도를 조절합니다.
@@ -229,7 +212,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ),
                                 ),
                                 const SizedBox(height: 8), // 텍스트 위에 여백 추가
->>>>>>> origin/mj
                                 Text(
                                   "${NumberFormat('#,###').format(data['price'])}원",
                                   style: const TextStyle(

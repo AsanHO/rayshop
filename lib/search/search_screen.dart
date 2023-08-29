@@ -16,7 +16,11 @@ class SearchScreen extends StatefulWidget {
 class _SearchScreenState extends State<SearchScreen> {
   final TextEditingController _searchController = TextEditingController();
   List<String> recentSearches = [];
+<<<<<<< HEAD
   List<DocumentSnapshot> searchResults = [];
+=======
+  List<DocumentSnapshot> searchResults = []; // Update this type
+>>>>>>> origin/mj
   bool showSearchResults =
       false; // Flag to control visibility of search results
 
@@ -87,7 +91,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     },
                     icon: const Icon(Icons.search_sharp),
                     iconSize: 30,
-                  )
+                  ),
                 ],
               ),
               Image.asset(
@@ -117,7 +121,11 @@ class _SearchScreenState extends State<SearchScreen> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
+<<<<<<< HEAD
                   Padding(
+=======
+                  const Padding(
+>>>>>>> origin/mj
                     padding: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -156,6 +164,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                 fontSize: 18, fontWeight: FontWeight.bold),
                           ),
                           TextButton(
+<<<<<<< HEAD
                             onPressed: _clearRecentSearches,
                             child: Text(
                               "전체 삭제",
@@ -163,6 +172,18 @@ class _SearchScreenState extends State<SearchScreen> {
                                 fontSize: 14,
                                 color: Colors.black.withOpacity(0.4),
                                 fontWeight: FontWeight.bold,
+=======
+                            onPressed: () {},
+                            child: TextButton(
+                              onPressed: _clearRecentSearches,
+                              child: Text(
+                                "전체 삭제",
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: Colors.black.withOpacity(0.4),
+                                  fontWeight: FontWeight.bold,
+                                ),
+>>>>>>> origin/mj
                               ),
                             ),
                           ),
@@ -173,7 +194,19 @@ class _SearchScreenState extends State<SearchScreen> {
                             EdgeInsets.symmetric(vertical: 18, horizontal: 12),
                         child: Column(
                           children: recentSearches.map((text) {
+<<<<<<< HEAD
                             return RecentSearch(text: text);
+=======
+                            return RecentSearch(
+                              text: text,
+                              recentSearches: recentSearches,
+                              onDelete: () {
+                                setState(() {
+                                  recentSearches.remove(text);
+                                });
+                              },
+                            );
+>>>>>>> origin/mj
                           }).toList(),
                         ),
                       ),
@@ -203,7 +236,10 @@ class _SearchScreenState extends State<SearchScreen> {
                           searchResults[index].data() as Map<String, dynamic>;
                       final productName = data['productName'] as String;
                       final price = data['price'] as int;
+<<<<<<< HEAD
 
+=======
+>>>>>>> origin/mj
                       return GestureDetector(
                         onTap: () {
                           Navigator.push(
@@ -223,7 +259,11 @@ class _SearchScreenState extends State<SearchScreen> {
                           child: Container(
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
+<<<<<<< HEAD
                                 color: Colors.grey.withOpacity(0.15)),
+=======
+                                color: Colors.grey.withOpacity(0.2)),
+>>>>>>> origin/mj
                             child: Padding(
                               padding: const EdgeInsets.symmetric(
                                   vertical: 15, horizontal: 15),
@@ -235,8 +275,12 @@ class _SearchScreenState extends State<SearchScreen> {
                                     width: 100, // 이미지의 가로 크기
                                     height: 100, // 이미지의 세로 크기
                                     child: ClipRRect(
+<<<<<<< HEAD
                                       borderRadius: BorderRadius.circular(
                                           10.0), // 동그란 모서리를 원하는 크기로 조절할 수 있습니다.
+=======
+                                      borderRadius: BorderRadius.circular(10.0),
+>>>>>>> origin/mj
                                       child: Image.network(
                                         data['imageUrl'] as String,
                                         fit: BoxFit.cover,
@@ -248,7 +292,11 @@ class _SearchScreenState extends State<SearchScreen> {
                                       Text(
                                         productName,
                                         style: const TextStyle(
+<<<<<<< HEAD
                                           fontSize: 20,
+=======
+                                          fontSize: 18,
+>>>>>>> origin/mj
                                           fontWeight: FontWeight.w600,
                                         ),
                                       ),

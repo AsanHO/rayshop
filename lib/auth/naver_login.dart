@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_naver_login/flutter_naver_login.dart';
-import 'package:rayshop/auth/main_auth.dart';
 
 class naver_Login extends StatefulWidget {
   const naver_Login({super.key});
