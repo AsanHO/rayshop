@@ -10,7 +10,7 @@ import 'package:video_player/video_player.dart';
 import 'main_navigation/main_navigation_screen.dart';
 
 void main() async {
-  print("8월23일 업데이트 입니다:) 스플래시 화면 추가");
+  print("8월29일 업데이트 입니다 검색 기능 구현 , 최신 버젼");
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
